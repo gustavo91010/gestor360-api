@@ -43,7 +43,7 @@ class UsersController(private val usersService: UsersService) {
         return ResponseEntity.ok().body(user)
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/id/{userId}")
     fun findById(@PathVariable userId: Long): ResponseEntity<Users> {
         logger.info("[GET] | /users/id/{userId} | userId: ${userId} ")
 
