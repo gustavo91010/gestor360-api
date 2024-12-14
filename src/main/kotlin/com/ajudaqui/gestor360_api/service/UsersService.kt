@@ -2,8 +2,8 @@ package com.ajudaqui.gestor360_api.service
 
 import com.ajudaqui.gestor360_api.dto.UsersDTO
 import com.ajudaqui.gestor360_api.entity.Roles
-import com.ajudaqui.gestor360_api.exception.NotFoundException
 import com.ajudaqui.gestor360_api.entity.Users
+import com.ajudaqui.gestor360_api.exception.NotFoundException
 import com.ajudaqui.gestor360_api.repository.RolesRepository
 import com.ajudaqui.gestor360_api.repository.UsersRepository
 import com.ajudaqui.gestor360_api.utils.ERoles
@@ -39,7 +39,7 @@ class UsersService(
         return userRepository.findById(id).orElseThrow { NotFoundException("usuário não localizado") }
     }
 
-    private fun findByEmail(email: String): Users {
+    fun findByEmail(email: String): Users {
         return userRepository.findByEmail(email).orElseThrow { NotFoundException("usuário não localizado") }
 
     }

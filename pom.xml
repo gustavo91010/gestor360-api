@@ -108,7 +108,6 @@
                         <configuration>
                             <sourceDirs>
                                 <source>src/main/kotlin</source>
-                                <source>target/generated-sources/annotations</source>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -134,13 +133,15 @@
 						<plugin>spring</plugin>
 						<plugin>jpa</plugin>
 						<plugin>all-open</plugin>
+						<plugin>no-arg</plugin>
+
 					</compilerPlugins>
 					<pluginOptions>
 						<option>all-open:annotation=jakarta.persistence.Entity</option>
 						<option>all-open:annotation=jakarta.persistence.MappedSuperclass</option>
 						<option>all-open:annotation=jakarta.persistence.Embeddable</option>
 					</pluginOptions>
-                    <jvmTarget>1.8</jvmTarget>
+                    <jvmTarget>17</jvmTarget>
                 </configuration>
 				<dependencies>
 					<dependency>
