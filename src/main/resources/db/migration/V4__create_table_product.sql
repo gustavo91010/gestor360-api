@@ -1,6 +1,6 @@
 CREATE TABLE product (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     current_cost DECIMAL(19, 4) NOT NULL DEFAULT 0
 );
 

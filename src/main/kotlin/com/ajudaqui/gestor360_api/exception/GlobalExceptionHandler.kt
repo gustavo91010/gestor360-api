@@ -27,11 +27,34 @@ class GlobalExceptionHandler {
 
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
-    fun lalal(){}
+
+
+    @ExceptionHandler(MessageException::class)
+    fun handleMessageException(
+        ex: MessageException,
+        request: WebRequest
+    ): ResponseEntity<String> {
+
+        infoLogError(ex)
+        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+    }
+
+
+
 
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(
         ex: NotFoundException,
+        request: WebRequest
+    ): ResponseEntity<String> {
+
+        infoLogError(ex)
+
+        return ResponseEntity(ex.message ?: "Não localizada", HttpStatus.NOT_FOUND)
+    }
+    @ExceptionHandler(NoSuchElementException::class)
+    fun handleNoSuchElementException(
+        ex: NoSuchElementException,
         request: WebRequest
     ): ResponseEntity<String> {
 
@@ -48,10 +71,8 @@ class GlobalExceptionHandler {
         val methodName = stackTraceElement?.methodName ?: "UnknownMethod"
         val lineNumber = stackTraceElement?.lineNumber ?: -1
 
-
         val callerInfo = "Exception occurred in $simpleClassName.$methodName() at line $lineNumber"
         val errorMessage = "Error: ${ex.message}. Called by: $callerInfo"
-
         logger.warn(errorMessage)
     }
 
