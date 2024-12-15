@@ -14,18 +14,6 @@ import org.springframework.web.bind.annotation.*
 class UsersController(private val usersService: UsersService) {
     private val logger = LoggerFactory.getLogger(UsersController::class.java)
 
-    @PostMapping
-    @Transactional
-    fun register(
-        @RequestBody usersDTO: UsersDTO
-    ): ResponseEntity<Users> {
-        logger.info("[POST] | /users | email: ${usersDTO.email}")
-        val userRegistered = usersService.register(usersDTO)
-
-        return ResponseEntity.status(201).body(userRegistered)
-
-    }
-
     @GetMapping
     fun findAll(): ResponseEntity<MutableList<Users>> {
         logger.info("[GET] | /users | ")

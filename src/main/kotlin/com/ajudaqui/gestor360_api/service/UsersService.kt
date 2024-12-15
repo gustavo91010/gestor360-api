@@ -15,7 +15,7 @@ class UsersService(
     private val rolesRepository: RolesRepository
 ) {
 
-    fun register(usersDTO: UsersDTO): Users {
+    fun create(usersDTO: UsersDTO): Users {
 
         val role = assignRole(ERoles.ROLE_USER)
         val roles: MutableSet<Roles> = HashSet()
@@ -34,13 +34,16 @@ class UsersService(
         return userRepository.save(users)
     }
 
-     fun findById(id: Long): Users {
+    fun findById(id: Long): Users {
         return userRepository.findById(id).orElseThrow { NotFoundException("usuário não localizado") }
     }
 
     fun findByEmail(email: String): Users {
         return userRepository.findByEmail(email).orElseThrow { NotFoundException("usuário não localizado") }
 
+    }
+    fun emailIsRegsitered(email: String): Boolean {
+        return userRepository.findByEmail(email).isPresent
     }
 
     fun findAll(): MutableList<Users> {

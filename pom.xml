@@ -91,6 +91,11 @@
             <artifactId>flyway-core</artifactId>
             <version>9.19.0</version>
         </dependency>
+        <!-- Suporte ao Spring Security (para BCrypt)
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>-->
     </dependencies>
 
     <build>
