@@ -12,6 +12,7 @@ data class Purchase(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
+    @Enumerated(EnumType.STRING)
     val type: EPurchaseType,
     val description: String,
     val totalPrice: BigDecimal = BigDecimal.ZERO,
@@ -27,6 +28,6 @@ data class Purchase(
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    val user: Users
+    val users: Users
 
 )
