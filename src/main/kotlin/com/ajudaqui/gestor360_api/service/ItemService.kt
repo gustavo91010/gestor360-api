@@ -12,42 +12,42 @@ data class ItemService(
     private val itemRepository: ItemRepository
 ) {
 
-    private fun create(itemDTO: ItemDTO): Item {
-
-        if (itemRepository.findByNameAndBrand(itemDTO.name,itemDTO.brand).isPresent) {
+     fun create(itemDTO: ItemDTO): Item {
+        itemRepository.findByNameAndBrand(itemDTO.name, itemDTO.brand).ifPresent() {
             throw MessageException("Item já registrado")
         }
-        return save(
-            Item(name = itemDTO.name, brand = itemDTO.brand, unitCost = itemDTO.unitCost)
+        return itemDTO.let {
+            save(Item(name = it.name, brand = it.brand, unitCost = it.unitCost))
+        }
+    }
+
+    private fun save(item: Item): Item = itemRepository.save(item)
+    private fun findById(itemId:Long):Item= itemRepository.findById(itemId)
+        .getOrElse {throw NoSuchElementException("Item with ID $itemId not found")  }
+
+
+    fun findByName(name: String): List<Item> = itemRepository.findByName(name)
+    fun findByBrand(brand: String): List<Item> = itemRepository.findByBrand(brand)
+
+    fun findByNameAndBrand(name: String, brand: String): Item =
+        itemRepository.findByNameAndBrand(name, brand)
+        .getOrElse { throw NoSuchElementException("Item with name $name and brand $brand not found") }
+
+    fun findAll(): List<Item> = itemRepository.findAll()
+
+    fun update(itemDTO: ItemDTO, itemId:Long): Item {
+        val item=findById(itemId).copy(
+            name = itemDTO.name,
+            brand = itemDTO.brand,
+            unitCost = itemDTO.unitCost
         )
+        return save(item)
     }
+    fun delete(itemId:Long) {
+        val item = itemRepository.findById(itemId)
+            .orElseThrow { NoSuchElementException("Item with ID $itemId not found") }
 
-    private fun save(item: Item): Item {
-        return itemRepository.save(item)
+        itemRepository.delete(item)
     }
-
-    fun findByName(name: String): List<Item> {
-        return itemRepository.findByName(name)
-    }
-    fun findByBrand(brand: String): List<Item> {
-        return itemRepository.findByBrand(brand)
-    }
-    fun findByNameAndBrand(name: String, brand:String): Item {
-        return itemRepository.findByNameAndBrand(name, brand)
-            .getOrElse { throw NoSuchElementException("Item de nome '$name' e marca: '${brand} não foi localizado") }
-    }
-    fun findAll(): List<Item> {
-        return itemRepository.findAll()
-    }
-
-    fun getItem(name: String): Item {
-        // return findByName(name).first{it.name == name}
-        return findByName(name).find { it.name == name }
-            ?: throw NoSuchElementException("Item de nome '$name' não foi localizado")
-
-    }
-
-    fun update(){}
-    fun delete(){}
 
 }

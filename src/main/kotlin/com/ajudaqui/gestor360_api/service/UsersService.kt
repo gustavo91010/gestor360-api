@@ -52,16 +52,14 @@ class UsersService(
     }
 
     fun update(usersDTO: UsersDTO, userId: Long): Users {
-
-        var user = findById(userId);
-        var userUpdated = user.copy(
+        val user = findById(userId).copy(
             email = usersDTO.email,
             name = usersDTO.name,
-            password = usersDTO.password,
-
-            )
-        return save(userUpdated)
+            password = usersDTO.password
+        )
+        return save(user)
     }
+
 
     fun delete(userId: Long) {
         userRepository.deleteById(userId)
