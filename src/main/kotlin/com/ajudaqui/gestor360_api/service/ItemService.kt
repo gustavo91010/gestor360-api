@@ -22,7 +22,7 @@ data class ItemService(
     }
 
     private fun save(item: Item): Item = itemRepository.save(item)
-    private fun findById(itemId:Long):Item= itemRepository.findById(itemId)
+    fun findById(itemId:Long):Item= itemRepository.findById(itemId)
         .getOrElse {throw NoSuchElementException("Item with ID $itemId not found")  }
 
 
