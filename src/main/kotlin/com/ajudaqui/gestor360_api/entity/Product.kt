@@ -1,7 +1,10 @@
 package com.ajudaqui.gestor360_api.entity
 
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import java.math.BigDecimal
+import java.time.LocalDateTime
 
 @Entity
 data class Product(
@@ -17,5 +20,11 @@ data class Product(
         joinColumns = [JoinColumn(name = "product_id")],
         inverseJoinColumns = [JoinColumn(name = "item_id")]
     )
-    val items:  List<Item> = mutableListOf()
-    )
+    val items: List<Item> = mutableListOf(),
+
+    @CreatedDate
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @LastModifiedDate
+    var updatedAt: LocalDateTime = LocalDateTime.now()
+)
