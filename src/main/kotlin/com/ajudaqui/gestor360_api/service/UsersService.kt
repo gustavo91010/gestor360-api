@@ -17,39 +17,24 @@ class UsersService(
 
     fun create(usersDTO: UsersDTO): Users {
 
-        val role = assignRole(ERoles.ROLE_USER)
-        val roles: MutableSet<Roles> = HashSet()
-        roles.add(role)
-        return save(
-            Users(
-                email = usersDTO.email,
-                name = usersDTO.name,
-                password = usersDTO.password,
-                roles = roles
-            )
-        )
+        val roles: MutableSet<Roles> = mutableSetOf(assignRole(ERoles.ROLE_USER))
+
+        return usersDTO.let {
+            save(Users(name = it.name, email = it.email, password = it.password, roles = roles))
+        }
     }
 
-    private fun save(users: Users): Users {
-        return userRepository.save(users)
-    }
+    private fun save(users: Users): Users = userRepository.save(users)
 
-    fun findById(id: Long): Users {
-        return userRepository.findById(id).orElseThrow { NotFoundException("usuário não localizado") }
-    }
+    fun findById(id: Long): Users =
+        userRepository.findById(id).orElseThrow { NotFoundException("user not found") }
 
-    fun findByEmail(email: String): Users {
-        return userRepository.findByEmail(email).orElseThrow { NotFoundException("usuário não localizado") }
+    fun findByEmail(email: String): Users =
+        userRepository.findByEmail(email).orElseThrow { NotFoundException("user not found") }
 
-    }
-    fun emailIsRegsitered(email: String): Boolean {
-        return userRepository.findByEmail(email).isPresent
-    }
+    fun emailRegistry(email: String): Boolean = userRepository.findByEmail(email).isPresent
 
-    fun findAll(): MutableList<Users> {
-        return userRepository.findAll()
-
-    }
+    fun findAll(): MutableList<Users> = userRepository.findAll()
 
     fun update(usersDTO: UsersDTO, userId: Long): Users {
         val user = findById(userId).copy(
@@ -61,15 +46,10 @@ class UsersService(
     }
 
 
-    fun delete(userId: Long) {
-        userRepository.deleteById(userId)
+    fun delete(userId: Long) = userRepository.deleteById(userId)
 
-
-    }
-
-    private fun assignRole(role: ERoles): Roles {
-        return rolesRepository.findByType(role).orElseThrow {
-            NotFoundException("role não localizada")
-        }
+    private fun assignRole(role: ERoles): Roles =
+        rolesRepository.findByType(role).orElseThrow {
+        NotFoundException("role not found")
     }
 }

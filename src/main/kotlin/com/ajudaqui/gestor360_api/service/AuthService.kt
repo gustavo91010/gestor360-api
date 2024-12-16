@@ -16,23 +16,25 @@ class AuthService(
     fun login(loginDTO: LoginDTO): ResponseLogin {
         val user = usersService.findByEmail(loginDTO.email)
 
-        if (!user.password.equals(loginDTO.password)) {
-            throw NotAutorizationException("Não autorizado, email / senha incorretos")
+        return if (user.password == loginDTO.password) {
+            ResponseLogin(
+                id = user.id ?: 0,
+                name = user.name,
+                email = user.email,
+                roles = user.roles
+            )
+        } else {
+            throw NotAutorizationException("Não autorizado, email/senha incorretos")
         }
 
-       return ResponseLogin(
-            id = user.id ?: 0,
-            name = user.name,
-            email = user.email,
-            roles = user.roles
-        )
     }
 
     fun register(usersDTO: UsersDTO): Users {
-       if( usersService.emailIsRegsitered(usersDTO.email)){
-           throw NotAutorizationException("Email já registrado")
-       }
+        return if (usersService.emailRegistry(usersDTO.email)) {
+            throw NotAutorizationException("Email já registrado")
+        } else {
+            usersService.create(usersDTO)
 
-        return usersService.create(usersDTO)
+        }
     }
 }

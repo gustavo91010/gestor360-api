@@ -9,7 +9,9 @@ import java.util.Optional
 
 interface ItemRepository: JpaRepository<Item, Long>{
 
+    @Query(value = "SELECT * FROM item WHERE name LIKE %:name%",nativeQuery = true)
     fun findByName(name: String): List<Item>
+
     fun findByBrand(brand: String): List<Item>
 
     @Query(value = "SELECT * FROM item WHERE name = :name AND brand = :brand",nativeQuery = true)

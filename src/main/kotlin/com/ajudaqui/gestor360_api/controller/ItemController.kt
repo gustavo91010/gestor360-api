@@ -6,6 +6,7 @@ import com.ajudaqui.gestor360_api.entity.Item
 import com.ajudaqui.gestor360_api.service.ItemService
 import jakarta.transaction.Transactional
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -14,6 +15,13 @@ import org.springframework.web.bind.annotation.*
 class ItemController(private val itemService: ItemService) {
     private val logger = LoggerFactory.getLogger(ItemController::class.java)
 
+    @Transactional
+    @PostMapping
+    fun register(@RequestBody itemDTO: ItemDTO): ResponseEntity<Item> {
+        logger.info("[POST] | /item | name: ${itemDTO.name}")
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.create(itemDTO))
+    }
     @GetMapping
     fun findAll(): ResponseEntity<List<Item>> {
         logger.info("[GET] | /item | ")
@@ -21,14 +29,14 @@ class ItemController(private val itemService: ItemService) {
         return ResponseEntity.ok(itemService.findAll())
     }
 
-    @GetMapping("/item/name/{name}")
+    @GetMapping("/name/{name}")
     fun findByName(@PathVariable name: String): ResponseEntity<List<Item>> {
         logger.info("[GET] | /item/name/{name} | name: $name")
 
         return ResponseEntity.ok(itemService.findByName(name))
     }
 
-    @GetMapping("/item/brand/{brand}")
+    @GetMapping("/brand/{brand}")
     fun findByBrand(@PathVariable brand: String): ResponseEntity<List<Item>> {
         logger.info("[GET] | /item/brand/{brand} | brand: $brand")
 
@@ -41,22 +49,20 @@ class ItemController(private val itemService: ItemService) {
 
         return ResponseEntity.ok(itemService.findById(userId))
     }
-
-    @PutMapping("/{itemId}")
     @Transactional
+    @PutMapping("/{itemId}")
     fun update(@RequestBody usersDTO: ItemDTO,@PathVariable itemId: Long): ResponseEntity<Item> {
         logger.info("[PUT] | /item/{itemId} | itemId: $itemId ")
 
         return ResponseEntity.ok(itemService.update(usersDTO, itemId))
     }
 
-    @DeleteMapping("/{itemId}")
     @Transactional
+    @DeleteMapping("/{itemId}")
     fun delete(@PathVariable itemId: Long): ResponseEntity<Void> {
         logger.info("[DELETE] | /item/{itemId} | itemId: $itemId")
 
         itemService.delete(itemId)
         return ResponseEntity.noContent().build()
     }
-
 }
