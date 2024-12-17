@@ -33,6 +33,9 @@ data class ItemService(
         itemRepository.findByNameAndBrand(name, brand)
         .getOrElse { throw NoSuchElementException("Item with name $name and brand $brand not found") }
 
+    fun findByIds(listItemId: List<Long>):List<Item> =itemRepository.findAllById(listItemId).toList()
+
+
     fun findAll(): List<Item> = itemRepository.findAll()
 
     fun update(itemDTO: ItemDTO, itemId:Long): Item {

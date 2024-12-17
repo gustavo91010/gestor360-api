@@ -17,4 +17,8 @@ interface ItemRepository: JpaRepository<Item, Long>{
     @Query(value = "SELECT * FROM item WHERE name = :name AND brand = :brand",nativeQuery = true)
     fun findByNameAndBrand(@Param("name") name: String, @Param("brand") brand: String): Optional<Item>
 
+    @Query(value = "SELECT * FROM item WHERE id IN (:ids)", nativeQuery = true)
+    fun findByIds(ids: List<Int>): List<Item>
+
+
 }
