@@ -27,10 +27,10 @@ class UsersService(
     private fun save(users: Users): Users = userRepository.save(users)
 
     fun findById(id: Long): Users =
-        userRepository.findById(id).orElseThrow { NotFoundException("user not found") }
+        userRepository.findById(id).orElseThrow { NotFoundException("user id $id not found") }
 
     fun findByEmail(email: String): Users =
-        userRepository.findByEmail(email).orElseThrow { NotFoundException("user not found") }
+        userRepository.findByEmail(email).orElseThrow { NotFoundException("user email $email not found") }
 
     fun emailRegistry(email: String): Boolean = userRepository.findByEmail(email).isPresent
 
@@ -50,6 +50,6 @@ class UsersService(
 
     private fun assignRole(role: ERoles): Roles =
         rolesRepository.findByType(role).orElseThrow {
-        NotFoundException("role not found")
+        NotFoundException("role $role not found")
     }
 }

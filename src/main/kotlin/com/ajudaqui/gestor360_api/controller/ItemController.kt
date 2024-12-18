@@ -17,52 +17,62 @@ class ItemController(private val itemService: ItemService) {
 
     @Transactional
     @PostMapping
-    fun register(@RequestBody itemDTO: ItemDTO): ResponseEntity<Item> {
-        logger.info("[POST] | /item | name: ${itemDTO.name}")
+    fun register(@RequestBody itemDTO: ItemDTO,
+                 @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<Item> {
+        logger.info("[POST] | /item | name: ${itemDTO.name} , userId: $authHeaderUserId")
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.create(itemDTO))
+        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.create(itemDTO,authHeaderUserId))
     }
     @GetMapping
-    fun findAll(): ResponseEntity<List<Item>> {
-        logger.info("[GET] | /item | ")
+    fun findAll( @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<List<Item>> {
+        logger.info("[GET] | /item | userId: $authHeaderUserId ")
 
-        return ResponseEntity.ok(itemService.findAll())
+        return ResponseEntity.ok(itemService.findAll(authHeaderUserId))
     }
 
     @GetMapping("/name/{name}")
-    fun findByName(@PathVariable name: String): ResponseEntity<List<Item>> {
+    fun findByName(@PathVariable name: String,
+                   @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<List<Item>> {
         logger.info("[GET] | /item/name/{name} | name: $name")
 
-        return ResponseEntity.ok(itemService.findByName(name))
+        return ResponseEntity.ok(itemService.findByName(authHeaderUserId,name))
     }
+
 
     @GetMapping("/brand/{brand}")
-    fun findByBrand(@PathVariable brand: String): ResponseEntity<List<Item>> {
+    fun findByBrand(@PathVariable brand: String,
+                    @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<List<Item>> {
         logger.info("[GET] | /item/brand/{brand} | brand: $brand")
 
-        return ResponseEntity.ok(itemService.findByBrand(brand))
+        return ResponseEntity.ok(itemService.findByBrand(authHeaderUserId,brand))
     }
 
-    @GetMapping("/id/{userId}")
-    fun findById(@PathVariable userId: Long): ResponseEntity<Item> {
-        logger.info("[GET] | /item/id/{userId} | name: $userId")
+    @GetMapping("/id/{itemId}")
+    fun findById(@PathVariable itemId: Long,
+                 @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<Item> {
+        logger.info("[GET] | /item/id/{itemId} | name: $itemId")
 
-        return ResponseEntity.ok(itemService.findById(userId))
+        return ResponseEntity.ok(itemService.findById(authHeaderUserId,itemId))
     }
     @Transactional
     @PutMapping("/{itemId}")
-    fun update(@RequestBody usersDTO: ItemDTO,@PathVariable itemId: Long): ResponseEntity<Item> {
+    fun update(
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        @RequestBody usersDTO: ItemDTO,
+        @PathVariable itemId: Long): ResponseEntity<Item> {
         logger.info("[PUT] | /item/{itemId} | itemId: $itemId ")
 
-        return ResponseEntity.ok(itemService.update(usersDTO, itemId))
+        return ResponseEntity.ok(itemService.update(usersDTO, itemId,authHeaderUserId))
     }
 
     @Transactional
     @DeleteMapping("/{itemId}")
-    fun delete(@PathVariable itemId: Long): ResponseEntity<Void> {
+    fun delete(
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        @PathVariable itemId: Long): ResponseEntity<Void> {
         logger.info("[DELETE] | /item/{itemId} | itemId: $itemId")
 
-        itemService.delete(itemId)
+        itemService.delete(authHeaderUserId,itemId)
         return ResponseEntity.noContent().build()
     }
 }
