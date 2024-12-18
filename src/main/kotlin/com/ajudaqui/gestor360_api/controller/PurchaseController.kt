@@ -17,40 +17,47 @@ class PurchaseController(private val purchaseService: PurchaseService) {
     @Transactional
     @PostMapping("/{userId}")
     fun register(
-                 @PathVariable userId: Long,
-                 @RequestBody purchaseDTO: PurchaseDTO): ResponseEntity<Purchase> {
-        logger.info("[POST] | /purchase | userId: $userId")
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        @RequestBody purchaseDTO: PurchaseDTO): ResponseEntity<Purchase> {
+        logger.info("[POST] | /purchase | userId: $authHeaderUserId")
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(purchaseService.register(userId,purchaseDTO))
+        return ResponseEntity.status(HttpStatus.CREATED).body(purchaseService.register(authHeaderUserId,purchaseDTO))
     }
 
     @GetMapping
-    fun findAll(): ResponseEntity<List<Purchase>> {
+    fun findAll(
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        ): ResponseEntity<List<Purchase>> {
         logger.info("[GET] | /purchase | ")
 
-        return ResponseEntity.ok(/* body = */ purchaseService.findAll())
+        return ResponseEntity.ok(purchaseService.findByUsers_Id(authHeaderUserId))
     }
 
     @GetMapping("/type/{type}")
-    fun findByName(@PathVariable type: String): ResponseEntity<List<Purchase>> {
+    fun findByName(
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        @PathVariable type: String): ResponseEntity<List<Purchase>> {
         logger.info("[GET] | /purchase/type/{type} | type: $type")
 
-        return ResponseEntity.ok(purchaseService.findByType(type))
+        return ResponseEntity.ok(purchaseService.findByType(authHeaderUserId,type))
     }
 
 
     @GetMapping("/id/{purchaseId}")
-    fun findById(@PathVariable purchaseId: Long): ResponseEntity<Purchase> {
+    fun findById(
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        @PathVariable purchaseId: Long): ResponseEntity<Purchase> {
         logger.info("[GET] | /purchase/id/{purchaseId} | purchaseId: $purchaseId")
 
-        return ResponseEntity.ok(purchaseService.findById(purchaseId))
+        return ResponseEntity.ok(purchaseService.findById(authHeaderUserId,purchaseId))
     }
 
     @GetMapping("/userId/{userId}")
-    fun findItemByUser(@PathVariable userId: Long): ResponseEntity<List<Purchase>> {
-        logger.info("[GET] | /purchase/userId/{userId} | userId: $userId")
+    fun findItemByUser(
+        @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<List<Purchase>> {
+        logger.info("[GET] | /purchase/userId/{userId} | userId: $authHeaderUserId")
 
-        return ResponseEntity.ok(purchaseService.findByUsers_Id(userId))
+        return ResponseEntity.ok(purchaseService.findByUsers_Id(authHeaderUserId))
     }
 
 

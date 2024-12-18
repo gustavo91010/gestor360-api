@@ -24,7 +24,7 @@ class UsersController(private val usersService: UsersService) {
 
     @GetMapping("/email/{email}")
     fun findByEmail(@PathVariable email: String): ResponseEntity<Users> {
-        logger.info("[GET] | /users/email/{email} | email: ${email} ")
+        logger.info("[GET] | /users/email/{email} | email: $email ")
 
         val user = usersService.findByEmail(email)
 
@@ -33,7 +33,7 @@ class UsersController(private val usersService: UsersService) {
 
     @GetMapping("/id/{userId}")
     fun findById(@PathVariable userId: Long): ResponseEntity<Users> {
-        logger.info("[GET] | /users/id/{userId} | userId: ${userId} ")
+        logger.info("[GET] | /users/id/{userId} | userId: $userId ")
 
         val user = usersService.findById(userId)
 

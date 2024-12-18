@@ -27,13 +27,13 @@ data class PurchaseService(
     }
     fun findByUsers_Id(userId:Long):List<Purchase> = purchaseRepository.findByUsers_Id(userId);
 
-    fun findAll(): List<Purchase> = purchaseRepository.findAll()
-    fun findByType(type: String): List<Purchase> {
+    // fun findAll(authHeaderUserId: Long): List<Purchase> = purchaseRepository.findAll()
+    fun findByType(userId: Long, type: String): List<Purchase> {
         EPurchaseType.valueOf(type)
-        return purchaseRepository.findByType(type)
+        return purchaseRepository.findByType(userId,type)
     }
 
-    fun findById(purchaseId: Long): Purchase = purchaseRepository.findById(purchaseId).orElseThrow {
+    fun findById(purchaseId: Long, purchaseId1: Long): Purchase = purchaseRepository.findById(purchaseId).orElseThrow {
         NotFoundException("Compra não localizada")
     }
 

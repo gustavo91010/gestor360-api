@@ -13,32 +13,33 @@ class ProductService(
 ) {
 
 
-    fun register(productDTO: ProductDTO):Product {
-        productRepository.findByName(productDTO.name).ifPresent()
-        { throw NotFoundException("Produto já registrado") }
+    fun register(userId: Long, productDTO: ProductDTO): Product {
 
+        productDTO.let {
+            productRepository.findByName(userId, it.name).ifPresent()
+            { throw NotFoundException("Produto já registrado") }
+        }
         return productDTO.let {
             save(
                 Product(
-                    name = it.name,  items = itemService.findByIds(it.itemID)
+                    name = it.name, items = itemService.findByIds(it.itemID)
                 )
             )
         }
-
-
     }
-    fun findAll(): List<Product> = productRepository.findAll()
-    fun findByName(name: String): Product =
-        productRepository.findByName(name).orElseThrow {
+
+    fun findAll(userId: Long): List<Product> = productRepository.findAll()
+    fun findByName(userId: Long, name: String): Product =
+        productRepository.findByName(userId, name).orElseThrow {
             NotFoundException("Produto não encontrado")
         }
 
-    fun findById(productId: Long): Product = productRepository.findById(productId).orElseThrow {
+    fun findById(userId: Long, productId: Long): Product = productRepository.findById(userId, productId).orElseThrow {
         NotFoundException("Produto não encontrado")
     }
 
-    fun update(productId: Long, productDTO: ProductDTO): Product {
-        var product = findById(productId).copy(
+    fun update(userId: Long, productId: Long, productDTO: ProductDTO): Product {
+        val product = findById(userId, productId).copy(
             name = productDTO.name,
             items = itemService.findByIds(productDTO.itemID)
         )

@@ -13,9 +13,9 @@ data class ItemService(
     private val usersService: UsersService
 ) {
 
-    fun create(itemDTO: ItemDTO, authHeaderUserId: Long): Item {
+    fun create(itemDTO: ItemDTO, userId: Long): Item {
         itemDTO.let {
-            if (itemRepository.findByNameAndBrand(it.name, it.brand, it.userId).isNotEmpty()) {
+            if (itemRepository.findByNameAndBrand(it.name, it.brand, userId).isNotEmpty()) {
                 throw MessageException("Item já registrado")
             }
         }
@@ -25,7 +25,7 @@ data class ItemService(
                     name = it.name,
                     brand = it.brand,
                     unitCost = it.unitCost,
-                    users = usersService.findById(it.userId),
+                    users = usersService.findById(userId),
                 )
             )
         }
@@ -36,8 +36,8 @@ data class ItemService(
         .getOrElse { throw NoSuchElementException("Item with ID $itemId not found") }
 
 
-    fun findByName(name: Long, name1: String): List<Item> = itemRepository.findByName(name)
-    fun findByBrand(brand: Long, brand1: String): List<Item> = itemRepository.findByBrand(brand)
+    fun findByName(userId: Long, name: String): List<Item> = itemRepository.findByName(userId,name)
+    fun findByBrand(userId: Long, brand: String): List<Item> = itemRepository.findByBrand(brand,userId)
     fun findItemByUser(userId: Long): List<Item> = itemRepository.findItemByUser(userId);
     /*
         fun findByNameAndBrand(name: String, brand: String): Item =
