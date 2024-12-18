@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param
 
 interface ItemRepository : JpaRepository<Item, Long> {
 
-    @Query(value = "SELECT * FROM item WHERE user_id= :userId AND LIKE %:name%", nativeQuery = true)
+    @Query(value = "SELECT * FROM item WHERE user_id= :userId AND name LIKE %:name%", nativeQuery = true)
     fun findByName(userId: Long, name: String): List<Item>
     @Query(value = "SELECT * FROM item WHERE user_id= :userId AND brand= :brand", nativeQuery = true)
     fun findByBrand(brand: String, userId: Long): List<Item>

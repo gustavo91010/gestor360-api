@@ -24,8 +24,10 @@ data class Item(
     val users: Users,
 
     @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now()
 )
