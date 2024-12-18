@@ -5,6 +5,8 @@ import com.ajudaqui.gestor360_api.entity.Purchase
 import com.ajudaqui.gestor360_api.exception.NotFoundException
 import com.ajudaqui.gestor360_api.repository.PurchaseRepository
 import com.ajudaqui.gestor360_api.utils.EPurchaseType
+import com.ajudaqui.gestor360_api.view.PurchaseView
+import com.ajudaqui.gestor360_api.view.toPurchaseView
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,7 +27,8 @@ data class PurchaseService(
             )
         }
     }
-    fun findByUsers_Id(userId:Long):List<Purchase> = purchaseRepository.findByUsers_Id(userId);
+    fun findbyusersId(userId:Long):List<PurchaseView> =
+        purchaseRepository.findByUsers_Id(userId).map { it.toPurchaseView() }
 
     // fun findAll(authHeaderUserId: Long): List<Purchase> = purchaseRepository.findAll()
     fun findByType(userId: Long, type: String): List<Purchase> {

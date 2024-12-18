@@ -4,6 +4,8 @@ import jakarta.persistence.EntityNotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.FieldError
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
@@ -28,6 +30,40 @@ class GlobalExceptionHandler {
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleMethodArgumentNotValidException(
+        ex: MethodArgumentNotValidException,
+        request: WebRequest
+    ): ResponseEntity<ErrorResponse> {
+
+        // Extrair os erros de validação
+        val errors = ex.bindingResult.allErrors.map {
+            val fieldError = it as FieldError
+            FieldErrorResponse(fieldError.field, fieldError.defaultMessage ?: "Erro desconhecido")
+        }
+        val errorResponse = ErrorResponse(
+            message =  "Erro de validação",
+            details = request.getDescription(false),
+            errors = errors
+        )
+        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(
+        ex: IllegalArgumentException,
+        request: WebRequest
+    ): ResponseEntity<ErrorResponse> {
+
+        val errorResponse = ErrorResponse(
+            message = ex.message ?: "Dados invalidos",
+            details = request.getDescription(false)
+        )
+        infoLogError(ex)
+
+        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+    }
+
 
     @ExceptionHandler(MessageException::class)
     fun handleMessageException(
@@ -40,8 +76,6 @@ class GlobalExceptionHandler {
     }
 
 
-
-
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(
         ex: NotFoundException,
@@ -52,6 +86,7 @@ class GlobalExceptionHandler {
 
         return ResponseEntity(ex.message ?: "Não localizada", HttpStatus.NOT_FOUND)
     }
+
     @ExceptionHandler(NoSuchElementException::class)
     fun handleNoSuchElementException(
         ex: NoSuchElementException,
@@ -75,5 +110,6 @@ class GlobalExceptionHandler {
         val errorMessage = "Error: ${ex.message}. Called by: $callerInfo"
         logger.warn(errorMessage)
     }
+
 
 }

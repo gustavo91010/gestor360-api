@@ -3,7 +3,10 @@ package com.ajudaqui.gestor360_api.controller
 import com.ajudaqui.gestor360_api.dto.PurchaseDTO
 import com.ajudaqui.gestor360_api.entity.Purchase
 import com.ajudaqui.gestor360_api.service.PurchaseService
+import com.ajudaqui.gestor360_api.view.PurchaseView
+import com.ajudaqui.gestor360_api.view.toPurchaseView
 import jakarta.transaction.Transactional
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,22 +18,24 @@ class PurchaseController(private val purchaseService: PurchaseService) {
     private val logger = LoggerFactory.getLogger(PurchaseController::class.java)
 
     @Transactional
-    @PostMapping("/{userId}")
+    @PostMapping
     fun register(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        @RequestBody purchaseDTO: PurchaseDTO): ResponseEntity<Purchase> {
+       @RequestBody  @Valid  purchaseDTO: PurchaseDTO): ResponseEntity<PurchaseView> {
         logger.info("[POST] | /purchase | userId: $authHeaderUserId")
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(purchaseService.register(authHeaderUserId,purchaseDTO))
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(purchaseService.register(authHeaderUserId,purchaseDTO).toPurchaseView())
     }
 
     @GetMapping
     fun findAll(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        ): ResponseEntity<List<Purchase>> {
+        ): ResponseEntity<List<PurchaseView>> {
         logger.info("[GET] | /purchase | ")
 
-        return ResponseEntity.ok(purchaseService.findByUsers_Id(authHeaderUserId))
+        return ResponseEntity.ok(purchaseService.findbyusersId(authHeaderUserId))
     }
 
     @GetMapping("/type/{type}")
@@ -54,10 +59,10 @@ class PurchaseController(private val purchaseService: PurchaseService) {
 
     @GetMapping("/userId/{userId}")
     fun findItemByUser(
-        @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<List<Purchase>> {
+        @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<List<PurchaseView>> {
         logger.info("[GET] | /purchase/userId/{userId} | userId: $authHeaderUserId")
 
-        return ResponseEntity.ok(purchaseService.findByUsers_Id(authHeaderUserId))
+        return ResponseEntity.ok(purchaseService.findbyusersId(authHeaderUserId))
     }
 
 

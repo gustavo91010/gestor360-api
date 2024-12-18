@@ -12,8 +12,12 @@ data class Purchase(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     val type: EPurchaseType,
+
+    @Column(name = "description", nullable = false)
     val description: String,
     // val totalPrice: BigDecimal = BigDecimal.ZERO,
 
@@ -30,9 +34,9 @@ data class Purchase(
     @JoinColumn(name = "user_id")
     val users: Users
 
-){
-    val totalPrice:BigDecimal
-        get() =items.stream()
+) {
+    val totalPrice: BigDecimal
+        get() = items.stream()
             .map { it.unitPrice }
             .reduce(BigDecimal.ZERO, BigDecimal::add)
     /*

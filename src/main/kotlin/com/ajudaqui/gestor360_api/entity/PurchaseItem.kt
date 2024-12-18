@@ -1,5 +1,6 @@
 package com.ajudaqui.gestor360_api.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -18,6 +19,7 @@ data class PurchaseItem(
 
     @ManyToOne
     @JoinColumn(name = "purchase_id")
+    @JsonIgnore
     val purchase: Purchase? = null,
     @CreatedDate
     val createdAt: LocalDateTime = LocalDateTime.now(),
