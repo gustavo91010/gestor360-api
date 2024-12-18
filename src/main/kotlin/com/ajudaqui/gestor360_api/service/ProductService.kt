@@ -1,5 +1,6 @@
 package com.ajudaqui.gestor360_api.service
 
+import com.ajudaqui.gestor360_api.dto.ProductDTO
 import com.ajudaqui.gestor360_api.entity.Product
 import com.ajudaqui.gestor360_api.exception.NotFoundException
 import com.ajudaqui.gestor360_api.repository.ProductRepository

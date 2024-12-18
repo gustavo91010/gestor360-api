@@ -1,9 +1,8 @@
 package com.ajudaqui.gestor360_api.controller
 
 
-import com.ajudaqui.gestor360_api.entity.Item
 import com.ajudaqui.gestor360_api.entity.Product
-import com.ajudaqui.gestor360_api.service.ProductDTO
+import com.ajudaqui.gestor360_api.dto.ProductDTO
 import com.ajudaqui.gestor360_api.service.ProductService
 import jakarta.transaction.Transactional
 import org.slf4j.LoggerFactory
@@ -47,7 +46,7 @@ class ProductController(private val productService: ProductService) {
     }
     @Transactional
     @PutMapping("/{productId}")
-    fun update(@RequestBody usersDTO: ProductDTO,@PathVariable productId: Long): ResponseEntity<Product> {
+    fun update(@RequestBody usersDTO: ProductDTO, @PathVariable productId: Long): ResponseEntity<Product> {
         logger.info("[PUT] | /product/{productId} | itemId: $productId ")
 
         return ResponseEntity.ok(productService.update(productId, usersDTO))

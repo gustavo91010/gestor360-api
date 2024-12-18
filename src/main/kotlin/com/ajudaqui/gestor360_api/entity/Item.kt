@@ -17,6 +17,10 @@ data class Item(
     val brand: String,
     val unitCost: BigDecimal = BigDecimal.ZERO,
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    val user: Users,
+
     @CreatedDate
     val createdAt: LocalDateTime = LocalDateTime.now(),
 

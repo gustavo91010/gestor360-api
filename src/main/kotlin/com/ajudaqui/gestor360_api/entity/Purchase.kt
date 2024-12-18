@@ -15,7 +15,7 @@ data class Purchase(
     @Enumerated(EnumType.STRING)
     val type: EPurchaseType,
     val description: String,
-    val totalPrice: BigDecimal = BigDecimal.ZERO,
+    // val totalPrice: BigDecimal = BigDecimal.ZERO,
 
     @OneToMany(mappedBy = "purchase")
     val items: MutableList<PurchaseItem> = mutableListOf(),
@@ -30,4 +30,18 @@ data class Purchase(
     @JoinColumn(name = "user_id")
     val users: Users
 
-)
+){
+    val totalPrice:BigDecimal
+        get() =items.stream()
+            .map { it.unitPrice }
+            .reduce(BigDecimal.ZERO, BigDecimal::add)
+    /*
+    {
+    val currentCost: BigDecimal
+        get()= items.stream()
+            .map { it.unitCost }
+            .reduce(BigDecimal.ZERO, BigDecimal::add)
+
+}
+     */
+}

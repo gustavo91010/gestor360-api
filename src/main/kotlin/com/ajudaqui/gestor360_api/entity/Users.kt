@@ -5,7 +5,6 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
 
-
 @Entity
 data class Users(
     @Id
@@ -28,6 +27,9 @@ data class Users(
 
     @LastModifiedDate
     var updatedAt: LocalDateTime = LocalDateTime.now(),
+
+    @OneToMany(mappedBy = "users", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val items: List<Item> = emptyList(),
 
     @OneToMany(mappedBy = "users")
     val purchases: List<Purchase> = emptyList()
