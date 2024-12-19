@@ -15,91 +15,22 @@ class GlobalExceptionHandler {
     private val logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
 
-    @ExceptionHandler(NotAutorizationException::class)
-    fun handleNotAutorizationException(
-        ex: NotAutorizationException,
+    @ExceptionHandler(Exception::class)
+    fun handleException(
+        ex: Exception,
         request: WebRequest
     ): ResponseEntity<ErrorResponse> {
+        val status = exceptionStatus[ex::class.java] ?: HttpStatus.INTERNAL_SERVER_ERROR
+        logException(ex)
 
         val errorResponse = ErrorResponse(
-            message = ex.message ?: "Solicitação não autorizada",
+            message = ex.message ?: "Erro desconhecido",
             details = request.getDescription(false)
         )
-        infoLogError(ex)
 
-        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(errorResponse, status)
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleMethodArgumentNotValidException(
-        ex: MethodArgumentNotValidException,
-        request: WebRequest
-    ): ResponseEntity<ErrorResponse> {
-
-        // Extrair os erros de validação
-        val errors = ex.bindingResult.allErrors.map {
-            val fieldError = it as FieldError
-            FieldErrorResponse(fieldError.field, fieldError.defaultMessage ?: "Erro desconhecido")
-        }
-        val errorResponse = ErrorResponse(
-            message =  "Erro de validação",
-            details = request.getDescription(false),
-            errors = errors
-        )
-        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgumentException(
-        ex: IllegalArgumentException,
-        request: WebRequest
-    ): ResponseEntity<ErrorResponse> {
-
-        val errorResponse = ErrorResponse(
-            message = ex.message ?: "Dados invalidos",
-            details = request.getDescription(false)
-        )
-        infoLogError(ex)
-
-        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
-    }
-
-
-    @ExceptionHandler(MessageException::class)
-    fun handleMessageException(
-        ex: MessageException,
-        request: WebRequest
-    ): ResponseEntity<String> {
-
-        infoLogError(ex)
-        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
-    }
-
-
-    @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(
-        ex: NotFoundException,
-        request: WebRequest
-    ): ResponseEntity<String> {
-
-        infoLogError(ex)
-
-        return ResponseEntity(ex.message ?: "Não localizada", HttpStatus.NOT_FOUND)
-    }
-
-    @ExceptionHandler(NoSuchElementException::class)
-    fun handleNoSuchElementException(
-        ex: NoSuchElementException,
-        request: WebRequest
-    ): ResponseEntity<String> {
-
-        infoLogError(ex)
-
-        return ResponseEntity(ex.message ?: "Não localizada", HttpStatus.NOT_FOUND)
-    }
-
-
-    private fun infoLogError(ex: Exception) {
+    private fun logException(ex: Exception) {
         val stackTraceElement = ex.stackTrace.firstOrNull()
 
         val simpleClassName = stackTraceElement?.className?.substringAfterLast(".") ?: "UnknownClass"
@@ -108,8 +39,27 @@ class GlobalExceptionHandler {
 
         val callerInfo = "Exception occurred in $simpleClassName.$methodName() at line $lineNumber"
         val errorMessage = "Error: ${ex.message}. Called by: $callerInfo"
-        logger.warn(errorMessage)
+        logger.error(errorMessage)
     }
+    private  val exceptionStatus = mapOf(
+        NoSuchElementException::class.java to HttpStatus.NOT_FOUND,
+        MethodArgumentNotValidException::class.java to HttpStatus.BAD_REQUEST,
+        IllegalArgumentException::class.java to HttpStatus.BAD_REQUEST,
+        MessageException::class.java to HttpStatus.UNAUTHORIZED,
+        NotFoundException::class.java to HttpStatus.NOT_FOUND,
+        NoSuchElementException::class.java to HttpStatus.NOT_FOUND,
+        NotAutorizationException::class.java to HttpStatus.UNAUTHORIZED
+    )
+
+
+
+
+
+
+
+
+
+
 
 
 }
