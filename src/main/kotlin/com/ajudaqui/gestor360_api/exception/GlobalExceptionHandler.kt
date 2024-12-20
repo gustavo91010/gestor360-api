@@ -14,7 +14,7 @@ import org.springframework.web.context.request.WebRequest
 class GlobalExceptionHandler {
     private val logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
-
+//
     @ExceptionHandler(Exception::class)
     fun handleException(
         ex: Exception,

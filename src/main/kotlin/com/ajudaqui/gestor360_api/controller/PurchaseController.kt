@@ -1,6 +1,7 @@
 package com.ajudaqui.gestor360_api.controller
 
 import com.ajudaqui.gestor360_api.dto.PurchaseDTO
+import com.ajudaqui.gestor360_api.dto.PurchaseItemDTO
 import com.ajudaqui.gestor360_api.entity.Purchase
 import com.ajudaqui.gestor360_api.service.PurchaseService
 import com.ajudaqui.gestor360_api.view.PurchaseView
@@ -21,18 +22,41 @@ class PurchaseController(private val purchaseService: PurchaseService) {
     @PostMapping
     fun register(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-       @RequestBody  @Valid  purchaseDTO: PurchaseDTO): ResponseEntity<PurchaseView> {
+        @RequestBody @Valid purchaseDTO: PurchaseDTO
+    ): ResponseEntity<PurchaseView> {
         logger.info("[POST] | /purchase | userId: $authHeaderUserId")
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(purchaseService.register(authHeaderUserId,purchaseDTO).toPurchaseView())
+            .body(purchaseService.register(authHeaderUserId, purchaseDTO).toPurchaseView())
     }
+
+    @Transactional
+    @PutMapping("/include")
+    fun incluirItem(
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        @RequestParam purchaseId: Long,
+        @RequestParam purchaseItemId: Long,
+        @RequestParam quantity: Double,
+    ): ResponseEntity<PurchaseView> {
+        logger.info("[PUT] | /purchase/include | userId: $authHeaderUserId")
+        return ResponseEntity.ok(purchaseService.incluirItem(authHeaderUserId, purchaseId,purchaseItemId,quantity).toPurchaseView())
+    }
+    @Transactional
+    @PutMapping("/add")
+    fun addItem(
+        @RequestHeader("Authorization") authHeaderUserId: Long,
+        @RequestBody @Valid purchaseDTO: PurchaseItemDTO
+    ): ResponseEntity<PurchaseView> {
+        logger.info("[PUT] | /purchase/add | userId: $authHeaderUserId")
+        return ResponseEntity.ok(purchaseService.addItem(authHeaderUserId, purchaseDTO).toPurchaseView())
+    }
+
 
     @GetMapping
     fun findAll(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        ): ResponseEntity<List<PurchaseView>> {
+    ): ResponseEntity<List<PurchaseView>> {
         logger.info("[GET] | /purchase | ")
 
         return ResponseEntity.ok(purchaseService.findbyusersId(authHeaderUserId))
@@ -41,25 +65,28 @@ class PurchaseController(private val purchaseService: PurchaseService) {
     @GetMapping("/type/{type}")
     fun findByName(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        @PathVariable type: String): ResponseEntity<List<Purchase>> {
+        @PathVariable type: String
+    ): ResponseEntity<List<Purchase>> {
         logger.info("[GET] | /purchase/type/{type} | type: $type")
 
-        return ResponseEntity.ok(purchaseService.findByType(authHeaderUserId,type))
+        return ResponseEntity.ok(purchaseService.findByType(authHeaderUserId, type))
     }
 
 
     @GetMapping("/id/{purchaseId}")
     fun findById(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        @PathVariable purchaseId: Long): ResponseEntity<Purchase> {
+        @PathVariable purchaseId: Long
+    ): ResponseEntity<PurchaseView> {
         logger.info("[GET] | /purchase/id/{purchaseId} | purchaseId: $purchaseId")
 
-        return ResponseEntity.ok(purchaseService.findById(authHeaderUserId,purchaseId))
+        return ResponseEntity.ok(purchaseService.findById(authHeaderUserId, purchaseId).toPurchaseView())
     }
 
     @GetMapping("/userId/{userId}")
     fun findItemByUser(
-        @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<List<PurchaseView>> {
+        @RequestHeader("Authorization") authHeaderUserId: Long
+    ): ResponseEntity<List<PurchaseView>> {
         logger.info("[GET] | /purchase/userId/{userId} | userId: $authHeaderUserId")
 
         return ResponseEntity.ok(purchaseService.findbyusersId(authHeaderUserId))
