@@ -37,8 +37,11 @@ data class Purchase(
 ) {
     val totalPrice: BigDecimal
         get() = items.stream()
-            .map { it.unitPrice }
+            .filter { it.totalPrice != null }
+            .map { it.totalPrice }
             .reduce(BigDecimal.ZERO, BigDecimal::add)
+
+
     /*
     {
     val currentCost: BigDecimal

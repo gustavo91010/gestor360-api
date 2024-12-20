@@ -36,12 +36,12 @@ class PurchaseItemController(
     }
 
 
-    @GetMapping("/id/{purchaseId}")
+    @GetMapping("/purchase/{purchaseId}")
     fun findByPurchaseId(
         @RequestHeader("Authorization") authHeaderUserId: Long,
         @PathVariable purchaseId: Long
     ): ResponseEntity<List<PurchaseItem>> {
-        logger.info("[GET] | /purchase/id/{purchaseId} | purchaseId: $purchaseId")
+        logger.info("[GET] | /purchase/purchase/{purchaseId} | purchaseId: $purchaseId")
 
         return ResponseEntity.ok(purchaseItemService.findByPurchaseId(authHeaderUserId, purchaseId))
     }

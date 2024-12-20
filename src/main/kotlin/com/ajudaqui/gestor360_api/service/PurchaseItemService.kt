@@ -7,6 +7,7 @@ import com.ajudaqui.gestor360_api.exception.NotAutorizationException
 import com.ajudaqui.gestor360_api.repository.PurchaseItemRepository
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 data class PurchaseItemService(
@@ -48,6 +49,9 @@ data class PurchaseItemService(
     }
 
     private fun save(purchaseItem: PurchaseItem): PurchaseItem = purchaseItemRepository.save(purchaseItem)
+    fun update(purchaseItem: PurchaseItem):PurchaseItem=
+        purchaseItemRepository.save(purchaseItem.apply {
+            updatedAt=LocalDateTime.now() })
 
 
 }

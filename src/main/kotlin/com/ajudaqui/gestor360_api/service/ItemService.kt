@@ -3,6 +3,7 @@ package com.ajudaqui.gestor360_api.service
 import com.ajudaqui.gestor360_api.dto.ItemDTO
 import com.ajudaqui.gestor360_api.entity.Item
 import com.ajudaqui.gestor360_api.exception.MessageException
+import com.ajudaqui.gestor360_api.exception.NotAutorizationException
 import com.ajudaqui.gestor360_api.repository.ItemRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -32,8 +33,10 @@ data class ItemService(
 
 
     private fun save(item: Item): Item = itemRepository.save(item)
-    fun findById(itemId: Long, itemId1: Long): Item =
+    fun findById(userId: Long, itemId: Long): Item =
         itemRepository.findById(itemId).getOrElse { throw NoSuchElementException("Item with ID $itemId not found") }
+            .takeIf { it.users.id == userId }
+            ?: throw NotAutorizationException("User with ID $userId is not authorized to access item $itemId")
 
 
     fun findByName(userId: Long, name: String): List<Item> = itemRepository.findByName(userId, name)

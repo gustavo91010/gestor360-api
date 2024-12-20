@@ -36,11 +36,11 @@ class PurchaseController(private val purchaseService: PurchaseService) {
     fun incluirItem(
         @RequestHeader("Authorization") authHeaderUserId: Long,
         @RequestParam purchaseId: Long,
-        @RequestParam purchaseItemId: Long,
+        @RequestParam itemId: Long,
         @RequestParam quantity: Double,
     ): ResponseEntity<PurchaseView> {
         logger.info("[PUT] | /purchase/include | userId: $authHeaderUserId")
-        return ResponseEntity.ok(purchaseService.incluirItem(authHeaderUserId, purchaseId,purchaseItemId,quantity).toPurchaseView())
+        return ResponseEntity.ok(purchaseService.incluirItem(authHeaderUserId, purchaseId,itemId,quantity))
     }
     @Transactional
     @PutMapping("/add")

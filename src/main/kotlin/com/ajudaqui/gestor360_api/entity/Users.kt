@@ -34,6 +34,7 @@ data class Users(
     val items: List<Item> = emptyList(),
 
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     val purchases: List<Purchase> = emptyList()
 )
 

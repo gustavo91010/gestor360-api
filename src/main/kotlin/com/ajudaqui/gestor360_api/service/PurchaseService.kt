@@ -12,11 +12,12 @@ import com.ajudaqui.gestor360_api.utils.toPurchaseItems
 import com.ajudaqui.gestor360_api.view.PurchaseView
 import com.ajudaqui.gestor360_api.view.toPurchaseView
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 data class PurchaseService(
     private var purchaseRepository: PurchaseRepository,
-//    private var purchaseItemService: PurchaseItemService,
+   private var purchaseItemService: PurchaseItemService,
     private var itemService: ItemService,
     private var usersService: UsersService
 ) {
@@ -52,14 +53,21 @@ data class PurchaseService(
 
     private fun save(purchase: Purchase): Purchase = purchaseRepository.save(purchase)
 
-    fun incluirItem(userId: Long, purchaseId: Long, itemId: Long, quantity: Double): Purchase {
+    fun incluirItem(userId: Long, purchaseId: Long, itemId: Long, quantity: Double): PurchaseView {
+        var findById = itemService.findById(userId, itemId)
+        println(findById.id)
+        println(findById.name)
+        println(findById.unitCost)
         val purchase = findById(userId = userId, purchaseId)
         val purchaseItem = itemService.findById(userId, itemId).toPurchaseItems(quantity, purchase)
+        println(purchaseItem.unitPrice)
+        println(purchaseItem.description)
+        println(purchaseItem.id)
         return addItem(
             userId = userId,
             purchase = purchase,
             purchaseItem = purchaseItem
-        )
+        ).toPurchaseView()
     }
 
     fun incluirItens(
@@ -86,7 +94,9 @@ data class PurchaseService(
     private fun addItem(userId: Long, purchase: Purchase, purchaseItem: PurchaseItem): Purchase {
         return purchase.takeIf { it.users.id == userId }
             ?.apply { items.add(purchaseItem) }
-            ?.also { save(it) }
+            ?.also {purchaseItemService.update(purchaseItem)  }?.also { update(it) }
             ?: throw NotAutorizationException("Usuário não autorizado a acessar esta compra")
     }
+
+    fun update(purchase: Purchase) :Purchase = save(purchase.also { it.updatedAt= LocalDateTime.now() })
 }
