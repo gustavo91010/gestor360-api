@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/purchase")
+@RequestMapping("/v1/purchase")
 class PurchaseController(private val purchaseService: PurchaseService) {
     private val logger = LoggerFactory.getLogger(PurchaseController::class.java)
 
@@ -43,13 +43,14 @@ class PurchaseController(private val purchaseService: PurchaseService) {
         return ResponseEntity.ok(purchaseService.incluirItem(authHeaderUserId, purchaseId,itemId,quantity))
     }
     @Transactional
-    @PutMapping("/add")
+    @PutMapping("/create-item/{purchaseId}")
     fun addItem(
         @RequestHeader("Authorization") authHeaderUserId: Long,
+        @PathVariable purchaseId:Long,
         @RequestBody @Valid purchaseDTO: PurchaseItemDTO
     ): ResponseEntity<PurchaseView> {
         logger.info("[PUT] | /purchase/add | userId: $authHeaderUserId")
-        return ResponseEntity.ok(purchaseService.addItem(authHeaderUserId, purchaseDTO).toPurchaseView())
+        return ResponseEntity.ok(purchaseService.addItemToPurchase(authHeaderUserId,purchaseId, purchaseDTO).toPurchaseView())
     }
 
 

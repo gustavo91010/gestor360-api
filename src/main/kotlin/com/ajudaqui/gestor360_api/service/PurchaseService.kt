@@ -55,15 +55,11 @@ data class PurchaseService(
 
     fun incluirItem(userId: Long, purchaseId: Long, itemId: Long, quantity: Double): PurchaseView {
         var findById = itemService.findById(userId, itemId)
-        println(findById.id)
-        println(findById.name)
-        println(findById.unitCost)
+
         val purchase = findById(userId = userId, purchaseId)
         val purchaseItem = itemService.findById(userId, itemId).toPurchaseItems(quantity, purchase)
-        println(purchaseItem.unitPrice)
-        println(purchaseItem.description)
-        println(purchaseItem.id)
-        return addItem(
+
+        return createPurchaseItem(
             userId = userId,
             purchase = purchase,
             purchaseItem = purchaseItem
@@ -79,9 +75,9 @@ data class PurchaseService(
         itemService.findByIds(itensId).toPurchaseItems(quantities, findById(userId = userId, purchaseId))
 
 
-    fun addItem(userId: Long, purchaseItemDTO: PurchaseItemDTO): Purchase {
-        val purchase = findById(userId = userId, purchaseItemDTO.purchaseId)
-        return addItem(
+    fun addItemToPurchase(userId: Long, purchaseId: Long, purchaseItemDTO: PurchaseItemDTO): Purchase {
+        val purchase = findById(userId = userId, purchaseId)
+        return createPurchaseItem(
             userId = userId,
             purchase = purchase,
             purchaseItem = purchaseItemDTO.let {
@@ -91,7 +87,7 @@ data class PurchaseService(
         )
     }
 
-    private fun addItem(userId: Long, purchase: Purchase, purchaseItem: PurchaseItem): Purchase {
+    private fun createPurchaseItem(userId: Long, purchase: Purchase, purchaseItem: PurchaseItem): Purchase {
         return purchase.takeIf { it.users.id == userId }
             ?.apply { items.add(purchaseItem) }
             ?.also {purchaseItemService.update(purchaseItem)  }?.also { update(it) }

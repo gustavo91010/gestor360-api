@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/v1/users")
 class UsersController(private val usersService: UsersService) {
     private val logger = LoggerFactory.getLogger(UsersController::class.java)
 

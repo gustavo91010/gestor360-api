@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/item")
+@RequestMapping("/v1/item")
 class ItemController(private val itemService: ItemService) {
     private val logger = LoggerFactory.getLogger(ItemController::class.java)
 

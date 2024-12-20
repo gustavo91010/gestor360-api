@@ -1,7 +1,6 @@
 package com.ajudaqui.gestor360_api.service
 
 import com.ajudaqui.gestor360_api.dto.PurchaseItemDTO
-import com.ajudaqui.gestor360_api.entity.Item
 import com.ajudaqui.gestor360_api.entity.PurchaseItem
 import com.ajudaqui.gestor360_api.exception.NotAutorizationException
 import com.ajudaqui.gestor360_api.repository.PurchaseItemRepository
@@ -16,14 +15,14 @@ data class PurchaseItemService(
     // a anotação @Lazy  adia a inicialização de uma bean definindo a ordem
 ) {
 
-    fun create(userId: Long, purchaseItemDTO: PurchaseItemDTO): PurchaseItem = save(
+    fun create(userId: Long, purchaseId: Long, purchaseItemDTO: PurchaseItemDTO): PurchaseItem = save(
         purchaseItemDTO.let {
             save(
                 PurchaseItem(
                     description = it.description,
                     quantity = it.quantity,
                     unitPrice = it.unitPrice,
-                    purchase = purchaseService.findById(userId, it.purchaseId)
+                    purchase = purchaseService.findById(userId, purchaseId)
                 )
             )
         }

@@ -13,7 +13,7 @@ class GlobalExceptionHandler {
     private val logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
 
-//    @ExceptionHandler(Exception::class)
+   @ExceptionHandler(Exception::class)
     fun handleException(
         ex: Exception,
         request: WebRequest
@@ -23,10 +23,12 @@ class GlobalExceptionHandler {
 
         logger.error(messageException)
 
-        val errorResponse = ErrorResponse(
-            message = messageException,
-            details = request.getDescription(false)
-        )
+        val errorResponse = ex.message?.let {
+            ErrorResponse(
+                message = it,
+                details = request.getDescription(false)
+            )
+        }
 
         return ResponseEntity(errorResponse, status)
     }

@@ -9,10 +9,9 @@ import jakarta.validation.constraints.NotNull
 import java.math.BigDecimal
 
 data class PurchaseItemDTO(
-    @field:NotNull var purchaseId: Long,
     @field:NotEmpty val description: String,
+    @field:NotEmpty val brand: String,
     @field:NotNull val quantity: Double,
     val unitPrice: BigDecimal = BigDecimal.ZERO,
-    val purchase: Purchase? = null,
-    val brand: String = "",
+//    val purchase: Purchase? = null,
 )
