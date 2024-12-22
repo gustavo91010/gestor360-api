@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.Query
 import java.util.Optional
 
 interface ProductRepository : JpaRepository<Product, Long> {
-    @Query(value = "SELECT * FROM product WHERE user_id= : userId AND name = :name", nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE user_id= :userId AND name = :name", nativeQuery = true)
     fun findByName(userId: Long, name: String): Optional<Product>
 
-    @Query(value = "SELECT * FROM product WHERE user_id= : userId AND id = :productId", nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE user_id= :userId AND id = :productId", nativeQuery = true)
     fun findById(userId: Long, productId: Long): Optional<Product>
 
 }

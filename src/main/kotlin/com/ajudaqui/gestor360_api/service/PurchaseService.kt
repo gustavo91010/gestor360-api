@@ -10,7 +10,7 @@ import com.ajudaqui.gestor360_api.repository.PurchaseRepository
 import com.ajudaqui.gestor360_api.utils.EPurchaseType
 import com.ajudaqui.gestor360_api.utils.toPurchaseItems
 import com.ajudaqui.gestor360_api.view.PurchaseView
-import com.ajudaqui.gestor360_api.view.toPurchaseView
+import com.ajudaqui.gestor360_api.view.toProductView
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -36,7 +36,7 @@ data class PurchaseService(
 
 
     fun findbyusersId(userId: Long): List<PurchaseView> =
-        purchaseRepository.findByUsers_Id(userId).map { it.toPurchaseView() }
+        purchaseRepository.findByUsers_Id(userId).map { it.toProductView() }
 
     // fun findAll(authHeaderUserId: Long): List<Purchase> = purchaseRepository.findAll()
     fun findByType(userId: Long, type: String): List<Purchase> {
@@ -63,7 +63,7 @@ data class PurchaseService(
             userId = userId,
             purchase = purchase,
             purchaseItem = purchaseItem
-        ).toPurchaseView()
+        ).toProductView()
     }
 
     fun incluirItens(

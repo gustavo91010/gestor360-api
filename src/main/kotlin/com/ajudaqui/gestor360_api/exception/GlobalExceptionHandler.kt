@@ -13,7 +13,7 @@ class GlobalExceptionHandler {
     private val logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
 
-   @ExceptionHandler(Exception::class)
+//   @ExceptionHandler(Exception::class)
     fun handleException(
         ex: Exception,
         request: WebRequest
@@ -45,7 +45,7 @@ class GlobalExceptionHandler {
 
             "Error of type ${ex::class.java.simpleName}: ${ex.message} in $simpleClassName.$methodName() at line $lineNumber"
         } else {
-            "Error: ${ex.message}. No relevant stack trace found."
+            "Error: ${ex.message}."
         }
         return callerInfo
     }

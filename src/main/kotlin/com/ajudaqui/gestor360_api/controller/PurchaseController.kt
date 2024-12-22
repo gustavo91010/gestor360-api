@@ -5,7 +5,7 @@ import com.ajudaqui.gestor360_api.dto.PurchaseItemDTO
 import com.ajudaqui.gestor360_api.entity.Purchase
 import com.ajudaqui.gestor360_api.service.PurchaseService
 import com.ajudaqui.gestor360_api.view.PurchaseView
-import com.ajudaqui.gestor360_api.view.toPurchaseView
+import com.ajudaqui.gestor360_api.view.toProductView
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
@@ -28,7 +28,7 @@ class PurchaseController(private val purchaseService: PurchaseService) {
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(purchaseService.register(authHeaderUserId, purchaseDTO).toPurchaseView())
+            .body(purchaseService.register(authHeaderUserId, purchaseDTO).toProductView())
     }
 
     @Transactional
@@ -50,7 +50,7 @@ class PurchaseController(private val purchaseService: PurchaseService) {
         @RequestBody @Valid purchaseDTO: PurchaseItemDTO
     ): ResponseEntity<PurchaseView> {
         logger.info("[PUT] | /purchase/add | userId: $authHeaderUserId")
-        return ResponseEntity.ok(purchaseService.addItemToPurchase(authHeaderUserId,purchaseId, purchaseDTO).toPurchaseView())
+        return ResponseEntity.ok(purchaseService.addItemToPurchase(authHeaderUserId,purchaseId, purchaseDTO).toProductView())
     }
 
 
@@ -81,7 +81,7 @@ class PurchaseController(private val purchaseService: PurchaseService) {
     ): ResponseEntity<PurchaseView> {
         logger.info("[GET] | /purchase/id/{purchaseId} | purchaseId: $purchaseId")
 
-        return ResponseEntity.ok(purchaseService.findById(authHeaderUserId, purchaseId).toPurchaseView())
+        return ResponseEntity.ok(purchaseService.findById(authHeaderUserId, purchaseId).toProductView())
     }
 
     @GetMapping("/userId/{userId}")

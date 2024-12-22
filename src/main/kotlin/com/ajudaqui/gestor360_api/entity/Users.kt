@@ -35,6 +35,12 @@ data class Users(
 
     @OneToMany(mappedBy = "users")
     @JsonIgnore
-    val purchases: List<Purchase> = emptyList()
-)
+    val purchases: List<Purchase> = emptyList(),
+
+    @OneToMany(mappedBy = "users")
+    @JsonIgnore
+    val products: List<Product> = emptyList()
+
+    )
+
 

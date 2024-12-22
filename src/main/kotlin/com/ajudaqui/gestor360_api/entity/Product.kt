@@ -28,11 +28,14 @@ data class Product(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 
-){
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    val users: Users
+) {
     val currentCost: BigDecimal
-        get()= items.stream()
+        get() = items.stream()
             .map { it.unitCost }
             .reduce(BigDecimal.ZERO, BigDecimal::add)
 
