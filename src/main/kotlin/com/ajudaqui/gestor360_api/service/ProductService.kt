@@ -15,15 +15,11 @@ class ProductService(
     private var usersService: UsersService
 ) {
 
-
     fun register(userId: Long, productDTO: ProductDTO): ProductView {
-
         productDTO.let {
             productRepository.findByName(userId, it.name).ifPresent()
             { throw NotFoundException("Produto já registrado") }
         }
-//        println(itemService.findByIds(productDTO.itemID))
-
         return productDTO.let {
             save(
                 Product(
@@ -46,7 +42,7 @@ class ProductService(
     }
 
     fun update(userId: Long, productId: Long, productDTO: ProductDTO): Product {
-        print("user $userId produtp: $productId")
+
         val product = findById(userId, productId).copy(
             name = productDTO.name,
             items = itemService.findByIds(productDTO.itemID)
