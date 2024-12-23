@@ -4,64 +4,67 @@ import com.ajudaqui.gestor360_api.dto.ProductDTO
 import com.ajudaqui.gestor360_api.entity.Item
 import com.ajudaqui.gestor360_api.entity.Product
 import com.ajudaqui.gestor360_api.entity.Users
+import com.ajudaqui.gestor360_api.exception.MessageException
+import com.ajudaqui.gestor360_api.exception.NotFoundException
 import com.ajudaqui.gestor360_api.repository.ProductRepository
 import com.ajudaqui.gestor360_api.view.ProductView
 import com.ajudaqui.gestor360_api.view.toProductView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 import java.util.*
 import kotlin.test.Test
 
 class ProductServiceTest {
 
-    val user = Users(
+    private val user = Users(
         id = 1,
         name = "User Teste",
         email = "user_test@email.com",
         password = "123456"
 
     )
-    val item = Item(
+    private val item = Item(
         id = 1,
         name = "Item Teste",
         brand = "marca test",
         unitCost = BigDecimal("10.00"),
         users = user,
     )
-    val product = Product(
+    private val product = Product(
         id = 1,
         name = "Produto Teste",
         items = listOf(item),
         users = user
     )
-    val produtoDTO = ProductDTO(
+    private val produtoDTO = ProductDTO(
         name = "Produto DTO",
         itemID = mutableListOf(1L)
     )
-    var productRepository: ProductRepository = mockk {
-        val saved=product.copy(
-            id = 7
-        )
-        every { save(any()) } returns saved
+    private val productRepository: ProductRepository = mockk {
+
+        every { save(any()) } answers { // acessa o argumento passado no teste
+            val product = firstArg<Product>()
+            product.copy(id = 7)
+        }
     }
-    var itemService: ItemService = mockk{
+    private var itemService: ItemService = mockk {
         every { findByIds(any()) } returns mutableListOf(item)
     }
-    var usersService: UsersService = mockk {
+    private var usersService: UsersService = mockk {
         every { findById(any()) } returns user
     }
 
-    val produtoSerice = ProductService(productRepository, itemService, usersService)
-
-
-//    / testar o register
+    private val produtoSerice = ProductService(productRepository, itemService, usersService)
 
     @Test
     fun `deve registrar um produto`() {
         every { productRepository.findByName(any(), any()) } returns Optional.empty()
-
         produtoSerice.register(1, produtoDTO)
 
         verify(exactly = 1) { productRepository.findByName(any(), any()) }
@@ -69,11 +72,31 @@ class ProductServiceTest {
     }
 
     @Test
-    fun `deve trazer o produto pelo id`() {
-//        every {productRepository. save(any()) } returns product.toProductView()
+    fun `deve lançar uma exceção de o produto ja estiver registrado`() {
+        every { productRepository.findByName(any(), any()) } returns Optional.of(product)
 
-        produtoSerice.findById(1, 1)
+        var exception = assertThrows<MessageException> {
+            produtoSerice.register(1, produtoDTO)
+
+        }
+        assertThat(exception.message).isEqualTo("Produto já registrado")
 
 
+        verify(exactly = 1) { productRepository.findByName(any(), any()) }
+        verify(exactly = 0) { productRepository.save(any()) }
+    }
+
+    @Test
+    fun `deve lancar uma exception se o produto pelo id for encontradp`() {
+        every { productRepository.findById(any(), any()) } returns Optional.empty()
+
+        val exception = assertThrows<NotFoundException> {
+            produtoSerice.findById(1, 10)
+        }
+        assertThat(exception)
+            .isInstanceOf(NotFoundException::class.java)
+            .hasMessage("Produto não de  id 10 encontrado")
+
+        verify(exactly = 1) { productRepository.findById(1, 1) }
     }
 }

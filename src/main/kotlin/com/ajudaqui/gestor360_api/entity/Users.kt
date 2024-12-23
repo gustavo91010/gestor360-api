@@ -22,6 +22,7 @@ data class Users(
         joinColumns = [JoinColumn(name = "user_id")],
         inverseJoinColumns = [JoinColumn(name = "role_id")]
     )
+    @JsonIgnore
     val roles: Set<Roles> = emptySet(),
     @CreatedDate
     val createdAt: LocalDateTime = LocalDateTime.now(),
@@ -41,6 +42,10 @@ data class Users(
     @JsonIgnore
     val products: List<Product> = emptyList()
 
-    )
+    ){
+    override fun toString(): String {
+        return "{id: $id, name: $name, email: $email, createdAt: $createdAt, updatedAt $updatedAt purchases_size: ${purchases.size}, products_size: ${products.size}}"
+    }
+}
 
 
