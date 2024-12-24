@@ -13,7 +13,7 @@ class GlobalExceptionHandler {
     private val logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
 
-//   @ExceptionHandler(Exception::class)
+  @ExceptionHandler(Exception::class)
     fun handleException(
         ex: Exception,
         request: WebRequest
