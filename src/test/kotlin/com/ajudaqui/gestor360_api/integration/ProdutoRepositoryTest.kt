@@ -64,9 +64,9 @@ class ProdutoRepositoryTest() {
             users = Users(id = 1, name = "Bob", email = "bob@email.com", password = "123456")
         )
             /*
-            Por algum motivo ele ta lendo os daods do banco de produção,
-            esta persistindo os dados no contaienr normal, mas esta somando com os de prod
-            caso contrrio, nem o user id 1 eu teria acesso
+              Por algum motivo ele ta lendo os dados do banco de produção,
+                esta persistindo os dados no container normal, mas esta somando com os de prod
+                caso contrario, nem o user id 1 eu teria acesso
              */
 
         val produtoSalvo = produtoRepository.save(produto)
