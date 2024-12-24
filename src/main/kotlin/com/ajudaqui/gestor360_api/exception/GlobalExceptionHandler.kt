@@ -13,7 +13,7 @@ class GlobalExceptionHandler {
     private val logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
 
-  @ExceptionHandler(Exception::class)
+    @ExceptionHandler(Exception::class)
     fun handleException(
         ex: Exception,
         request: WebRequest
@@ -31,6 +31,28 @@ class GlobalExceptionHandler {
         }
 
         return ResponseEntity(errorResponse, status)
+    }
+    // Tratar validações de argumentos
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationException(
+        ex: MethodArgumentNotValidException,
+        request: WebRequest
+    ): ResponseEntity<ErrorResponse> {
+
+        val fieldErrors = ex.bindingResult.fieldErrors.map { fieldError ->
+            FieldErrorResponse(
+                field = fieldError.field,
+                message = fieldError.defaultMessage ?: "Invalid value"
+            )
+        }
+
+        val errorResponse = ErrorResponse(
+            message = "Validation Error",
+            details = request.getDescription(false),
+            errors = fieldErrors
+        )
+
+        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 
     private fun formatMessageException(ex: Exception): String {

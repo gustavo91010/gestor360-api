@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 data class ProductView(
     val id: Long?,
-    val users: Long?,
+    val usersId: Long?,
     val name: String,
     val currentCost: BigDecimal,
     val items: List<Item> = mutableListOf(),
@@ -16,7 +16,7 @@ data class ProductView(
 
 fun Product.toProductView(): ProductView = ProductView(
     id = this.id,
-    users = this.users.id,
+    usersId = this.users.id,
     name = this.name,
     currentCost = this.currentCost,
     items = this.items,

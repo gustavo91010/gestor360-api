@@ -7,6 +7,7 @@ import com.ajudaqui.gestor360_api.service.ProductService
 import com.ajudaqui.gestor360_api.view.ProductView
 import com.ajudaqui.gestor360_api.view.toProductView
 import jakarta.transaction.Transactional
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,10 +22,10 @@ class ProductController(private val productService: ProductService) {
     @PostMapping
     fun register(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        @RequestBody itemDTO: ProductDTO): ResponseEntity<ProductView> {
-        logger.info("[POST] | /product | name: ${itemDTO.name}")
+        @RequestBody @Valid productDTO: ProductDTO): ResponseEntity<ProductView> {
+        logger.info("[POST] | /product | name: ${productDTO.name}")
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.register(authHeaderUserId,itemDTO))
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.register(authHeaderUserId,productDTO))
     }
 
     @GetMapping
@@ -58,10 +59,10 @@ class ProductController(private val productService: ProductService) {
     @PutMapping("/{productId}")
     fun update(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        @RequestBody usersDTO: ProductDTO, @PathVariable productId: Long): ResponseEntity<Product> {
+        @RequestBody @Valid productDTO: ProductDTO, @PathVariable productId: Long): ResponseEntity<Product> {
         logger.info("[PUT] | /product/{productId} | itemId: $productId ")
 
-        return ResponseEntity.ok(productService.update(authHeaderUserId,productId, usersDTO))
+        return ResponseEntity.ok(productService.update(authHeaderUserId,productId, productDTO))
     }
 
 }

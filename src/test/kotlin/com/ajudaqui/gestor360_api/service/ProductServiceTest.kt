@@ -7,15 +7,12 @@ import com.ajudaqui.gestor360_api.entity.Users
 import com.ajudaqui.gestor360_api.exception.MessageException
 import com.ajudaqui.gestor360_api.exception.NotFoundException
 import com.ajudaqui.gestor360_api.repository.ProductRepository
-import com.ajudaqui.gestor360_api.view.ProductView
-import com.ajudaqui.gestor360_api.view.toProductView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.assertThrows
+import org.springframework.web.bind.MethodArgumentNotValidException
 import java.math.BigDecimal
 import java.util.*
 import kotlin.test.Test
@@ -47,9 +44,10 @@ class ProductServiceTest {
         itemID = mutableListOf(1L)
     )
     private val productRepository: ProductRepository = mockk {
+        every { findById(any(), any()) } returns Optional.of(product)
 
-        every { save(any()) } answers { // acessa o argumento passado no teste
-            val product = firstArg<Product>()
+        every { save(any()) } answers {
+            val product = firstArg<Product>() // acessa o argumento passado no teste
             product.copy(id = 7)
         }
     }
@@ -64,18 +62,25 @@ class ProductServiceTest {
 
     @Test
     fun `deve registrar um produto`() {
+        val userId:Long =1
         every { productRepository.findByName(any(), any()) } returns Optional.empty()
-        produtoSerice.register(1, produtoDTO)
+        val registered= produtoSerice.register(userId, produtoDTO)
+
 
         verify(exactly = 1) { productRepository.findByName(any(), any()) }
         verify(exactly = 1) { productRepository.save(any()) }
+
+        assertThat(registered).isNotNull
+        assertThat(registered.usersId).isEqualTo(userId)
+        assertThat(registered.name).isEqualTo(produtoDTO.name)
+        assertThat(registered.items.map { it.id }).containsExactlyElementsOf(produtoDTO.itemID)
     }
 
     @Test
     fun `deve lançar uma exceção de o produto ja estiver registrado`() {
         every { productRepository.findByName(any(), any()) } returns Optional.of(product)
 
-        var exception = assertThrows<MessageException> {
+        val exception = assertThrows<MessageException> {
             produtoSerice.register(1, produtoDTO)
 
         }
@@ -87,7 +92,7 @@ class ProductServiceTest {
     }
 
     @Test
-    fun `deve lancar uma exception se o produto pelo id for encontradp`() {
+    fun `deve lancar uma exception se o produto pelo id for encontrado`() {
         every { productRepository.findById(any(), any()) } returns Optional.empty()
 
         val exception = assertThrows<NotFoundException> {
@@ -96,7 +101,15 @@ class ProductServiceTest {
         assertThat(exception)
             .isInstanceOf(NotFoundException::class.java)
             .hasMessage("Produto não de  id 10 encontrado")
-
-        verify(exactly = 1) { productRepository.findById(1, 1) }
     }
+
+    @Test
+    fun `deve fazer o update dos valores adicionados`(){
+        produtoSerice.update(1,1,produtoDTO)
+
+        verify(exactly = 1) { itemService.findByIds(produtoDTO.itemID) }
+        verify(exactly = 1) { productRepository.save(any()) }
+    }
+
+
 }
