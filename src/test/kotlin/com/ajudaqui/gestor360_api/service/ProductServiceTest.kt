@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 import org.springframework.web.bind.MethodArgumentNotValidException
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import kotlin.test.Test
 
@@ -33,7 +34,10 @@ class ProductServiceTest {
         unitCost = BigDecimal("10.00"),
         users = user,
     )
-    private val product = Product(
+    private val itens =listOf(item,
+        item.copy(id = 2, unitCost = BigDecimal("17.00")),
+        item.copy(id = 3, unitCost = BigDecimal("8.00")))
+    private var product = Product(
         id = 1,
         name = "Produto Teste",
         items = listOf(item),
@@ -41,10 +45,11 @@ class ProductServiceTest {
     )
     private val produtoDTO = ProductDTO(
         name = "Produto DTO",
-        itemID = mutableListOf(1L)
+        itemID = mutableListOf(1L,2L,3L)
     )
     private val productRepository: ProductRepository = mockk {
         every { findById(any(), any()) } returns Optional.of(product)
+        every { findByName(any(), any()) } returns Optional.empty()
 
         every { save(any()) } answers {
             val product = firstArg<Product>() // acessa o argumento passado no teste
@@ -52,7 +57,7 @@ class ProductServiceTest {
         }
     }
     private var itemService: ItemService = mockk {
-        every { findByIds(any()) } returns mutableListOf(item)
+        every { findByIds(any()) } returns itens
     }
     private var usersService: UsersService = mockk {
         every { findById(any()) } returns user
@@ -61,11 +66,19 @@ class ProductServiceTest {
     private val produtoSerice = ProductService(productRepository, itemService, usersService)
 
     @Test
-    fun `deve registrar um produto`() {
-        val userId:Long =1
-        every { productRepository.findByName(any(), any()) } returns Optional.empty()
-        val registered= produtoSerice.register(userId, produtoDTO)
+    fun `deve adicionar o total dos valores dos itens ao produto`() {
+        val registered = produtoSerice.register(1, produtoDTO)
+        val totalCost = registered.items.sumOf { it.unitCost }.setScale(2, RoundingMode.HALF_UP)
 
+        assertThat(totalCost).isEqualTo(registered.currentCost)
+        assertThat(totalCost).isEqualTo(BigDecimal("35.00")) // Esperado 35.00, itens: 10.00 + 17.00 +8.00
+        assertThat(totalCost).isNotZero()
+    }
+
+    @Test
+    fun `deve registrar um produto`() {
+        val userId: Long = 1
+        val registered = produtoSerice.register(userId, produtoDTO)
 
         verify(exactly = 1) { productRepository.findByName(any(), any()) }
         verify(exactly = 1) { productRepository.save(any()) }
@@ -74,6 +87,7 @@ class ProductServiceTest {
         assertThat(registered.usersId).isEqualTo(userId)
         assertThat(registered.name).isEqualTo(produtoDTO.name)
         assertThat(registered.items.map { it.id }).containsExactlyElementsOf(produtoDTO.itemID)
+        assertThat(registered.currentCost)
     }
 
     @Test
@@ -85,7 +99,6 @@ class ProductServiceTest {
 
         }
         assertThat(exception.message).isEqualTo("Produto já registrado")
-
 
         verify(exactly = 1) { productRepository.findByName(any(), any()) }
         verify(exactly = 0) { productRepository.save(any()) }
@@ -104,12 +117,10 @@ class ProductServiceTest {
     }
 
     @Test
-    fun `deve fazer o update dos valores adicionados`(){
-        produtoSerice.update(1,1,produtoDTO)
+    fun `deve fazer o update dos valores adicionados`() {
+        produtoSerice.update(1, 1, produtoDTO)
 
         verify(exactly = 1) { itemService.findByIds(produtoDTO.itemID) }
         verify(exactly = 1) { productRepository.save(any()) }
     }
-
-
 }
