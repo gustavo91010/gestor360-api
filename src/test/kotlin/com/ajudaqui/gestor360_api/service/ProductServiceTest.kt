@@ -91,7 +91,7 @@ class ProductServiceTest {
     }
 
     @Test
-    fun `deve lançar uma exceção de o produto ja estiver registrado`() {
+    fun `deve lançar uma exceção se o produto ja estiver registrado`() {
         every { productRepository.findByName(any(), any()) } returns Optional.of(product)
 
         val exception = assertThrows<MessageException> {
