@@ -2,10 +2,10 @@ package com.ajudaqui.gestor360_api.controller
 
 import com.ajudaqui.gestor360_api.dto.PurchaseDTO
 import com.ajudaqui.gestor360_api.dto.PurchaseItemDTO
-import com.ajudaqui.gestor360_api.entity.Purchase
 import com.ajudaqui.gestor360_api.service.PurchaseService
 import com.ajudaqui.gestor360_api.view.PurchaseView
 import com.ajudaqui.gestor360_api.view.toProductView
+import com.ajudaqui.gestor360_api.view.toPurchaseView
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
@@ -67,10 +67,10 @@ class PurchaseController(private val purchaseService: PurchaseService) {
     fun findByName(
         @RequestHeader("Authorization") authHeaderUserId: Long,
         @PathVariable type: String
-    ): ResponseEntity<List<Purchase>> {
+    ): ResponseEntity<List<PurchaseView>> {
         logger.info("[GET] | /purchase/type/{type} | type: $type")
 
-        return ResponseEntity.ok(purchaseService.findByType(authHeaderUserId, type))
+        return ResponseEntity.ok(purchaseService.findByType(authHeaderUserId, type).toPurchaseView())
     }
 
 

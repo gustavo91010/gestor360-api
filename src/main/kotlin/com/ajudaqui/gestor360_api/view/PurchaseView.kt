@@ -28,5 +28,6 @@ fun Purchase.toProductView(): PurchaseView {
         totalPrice = this.totalPrice
     )
 }
+fun List<Purchase>.toPurchaseView(): List<PurchaseView> = this.map { it.toProductView() }
 
 

@@ -41,14 +41,4 @@ data class Purchase(
             .map { it.totalPrice }
             .reduce(BigDecimal.ZERO, BigDecimal::add)
 
-
-    /*
-    {
-    val currentCost: BigDecimal
-        get()= items.stream()
-            .map { it.unitCost }
-            .reduce(BigDecimal.ZERO, BigDecimal::add)
-
-}
-     */
 }

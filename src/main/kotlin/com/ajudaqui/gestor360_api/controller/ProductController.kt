@@ -59,10 +59,10 @@ class ProductController(private val productService: ProductService) {
     @PutMapping("/{productId}")
     fun update(
         @RequestHeader("Authorization") authHeaderUserId: Long,
-        @RequestBody @Valid productDTO: ProductDTO, @PathVariable productId: Long): ResponseEntity<Product> {
+        @RequestBody @Valid productDTO: ProductDTO, @PathVariable productId: Long): ResponseEntity<ProductView> {
         logger.info("[PUT] | /product/{productId} | itemId: $productId ")
 
-        return ResponseEntity.ok(productService.update(authHeaderUserId,productId, productDTO))
+        return ResponseEntity.ok(productService.update(authHeaderUserId,productId, productDTO).toProductView())
     }
 
 }
