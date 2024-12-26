@@ -34,7 +34,7 @@ data class ItemService(
     private fun save(item: Item): Item = itemRepository.save(item)
 
     fun findById(userId: Long, itemId: Long): Item =
-        itemRepository.findById(itemId).also { println("sera que vema qui no item???") }
+        itemRepository.findById(itemId)
             .getOrElse { throw NoSuchElementException("Item with ID $itemId not found") }
             .takeIf { it.users.id == userId }
             ?: throw NotAutorizationException("User with ID $userId is not authorized to access item $itemId")
