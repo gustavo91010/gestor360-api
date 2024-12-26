@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDateTime
 
 @Entity
@@ -39,6 +40,6 @@ data class Product(
     val currentCost: BigDecimal
         get() = items.stream()
             .map { it.unitCost }
-            .reduce(BigDecimal.ZERO, BigDecimal::add)
+            .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP)
 
 }

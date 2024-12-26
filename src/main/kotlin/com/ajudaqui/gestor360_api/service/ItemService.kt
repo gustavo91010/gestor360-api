@@ -14,22 +14,21 @@ data class ItemService(
     private val itemRepository: ItemRepository, private val usersService: UsersService
 ) {
 
-    fun create(itemDTO: ItemDTO, userId: Long): Item =
-        itemDTO.let { it ->
-            if (itemRepository.findByNameAndBrand(it.name, it.brand, userId).isNotEmpty()) {
-                throw MessageException("Item já registrado")
-            }
-            return itemDTO.let {
-                save(
-                    Item(
-                        name = it.name,
-                        brand = it.brand,
-                        unitCost = it.unitCost,
-                        users = usersService.findById(userId),
-                    )
-                )
-            }
+    fun create(itemDTO: ItemDTO, userId: Long): Item {
+        if (itemRepository.findByNameAndBrand(itemDTO.name, itemDTO.brand, userId).isNotEmpty()) {
+            throw MessageException("Item já registrado")
         }
+        return itemDTO.let {
+            save(
+                Item(
+                    name = it.name,
+                    brand = it.brand,
+                    unitCost = it.unitCost,
+                    users = usersService.findById(userId),
+                )
+            )
+        }
+    }
 
 
     private fun save(item: Item): Item = itemRepository.save(item)

@@ -1,10 +1,12 @@
 package com.ajudaqui.gestor360_api.entity
 
 import com.ajudaqui.gestor360_api.utils.EPurchaseType
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDateTime
 
 @Entity
@@ -32,6 +34,7 @@ data class Purchase(
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     val users: Users
 
 ) {
@@ -40,5 +43,6 @@ data class Purchase(
             .filter { it.totalPrice != null }
             .map { it.totalPrice }
             .reduce(BigDecimal.ZERO, BigDecimal::add)
+            .setScale(2, RoundingMode.HALF_UP)
 
 }

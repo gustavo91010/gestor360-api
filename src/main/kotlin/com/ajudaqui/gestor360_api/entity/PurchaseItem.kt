@@ -5,6 +5,7 @@ import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDateTime
 
 @Entity
@@ -15,7 +16,7 @@ data class PurchaseItem(
     val description: String,
     val quantity: Double,
     val unitPrice: BigDecimal = BigDecimal.ZERO,
-    var totalPrice: BigDecimal = BigDecimal.ZERO,
+//    var totalPrice: BigDecimal = BigDecimal.ZERO,
 
     @ManyToOne
     @JoinColumn(name = "purchase_id")
@@ -27,11 +28,14 @@ data class PurchaseItem(
     @LastModifiedDate
     var updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
+    val totalPrice: BigDecimal
+        get() = unitPrice.multiply(BigDecimal(quantity)).setScale(2,RoundingMode.HALF_UP)
 
-    @PrePersist
-    fun calculateTotalPrice() {
-        totalPrice = unitPrice.multiply(BigDecimal(quantity))
-    }
+//    val value = BigDecimal("123.456").setScale(2, RoundingMode.CEILING)
+//    @PrePersist
+//    fun calculateTotalPrice() {
+//        totalPrice = unitPrice.multiply(BigDecimal(quantity))
+//    }
 
 
 }
