@@ -14,7 +14,7 @@ data class ProductView(
     var updatedAt: LocalDateTime = LocalDateTime.now()
 )
 
-fun Product.toProductView(): ProductView = ProductView(
+fun Product.toPurchaseView(): ProductView = ProductView(
     id = this.id,
     usersId = this.users.id,
     name = this.name,
@@ -24,7 +24,7 @@ fun Product.toProductView(): ProductView = ProductView(
     updatedAt = this.updatedAt
 )
 
-fun List<Product>.toProductView():List<ProductView> = this.map { it.toProductView() }
+fun List<Product>.toPurchaseView():List<ProductView> = this.map { it.toPurchaseView() }
 
 
 

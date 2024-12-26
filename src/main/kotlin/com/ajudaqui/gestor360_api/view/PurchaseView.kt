@@ -16,7 +16,7 @@ data class PurchaseView(
     val totalPrice: BigDecimal
 )
 
-fun Purchase.toProductView(): PurchaseView {
+fun Purchase.toPurchaseView(): PurchaseView {
     return PurchaseView(
         id = this.id,
         type = this.type.toString(),
@@ -28,6 +28,6 @@ fun Purchase.toProductView(): PurchaseView {
         totalPrice = this.totalPrice
     )
 }
-fun List<Purchase>.toPurchaseView(): List<PurchaseView> = this.map { it.toProductView() }
+fun List<Purchase>.toPurchaseView(): List<PurchaseView> = this.map { it.toPurchaseView() }
 
 

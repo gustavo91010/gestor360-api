@@ -6,7 +6,7 @@ import com.ajudaqui.gestor360_api.exception.MessageException
 import com.ajudaqui.gestor360_api.exception.NotFoundException
 import com.ajudaqui.gestor360_api.repository.ProductRepository
 import com.ajudaqui.gestor360_api.view.ProductView
-import com.ajudaqui.gestor360_api.view.toProductView
+import com.ajudaqui.gestor360_api.view.toPurchaseView
 import org.springframework.stereotype.Service
 
 @Service
@@ -29,7 +29,7 @@ class ProductService(
                     items = itemService.findByIds(it.itemID)
                 )
             )
-        }.toProductView()
+        }.toPurchaseView()
     }
 
     fun findAll(userId: Long): List<Product> = productRepository.findAllByUserId(userId)

@@ -1,11 +1,10 @@
 package com.ajudaqui.gestor360_api.controller
 
 
-import com.ajudaqui.gestor360_api.entity.Product
 import com.ajudaqui.gestor360_api.dto.ProductDTO
 import com.ajudaqui.gestor360_api.service.ProductService
 import com.ajudaqui.gestor360_api.view.ProductView
-import com.ajudaqui.gestor360_api.view.toProductView
+import com.ajudaqui.gestor360_api.view.toPurchaseView
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
@@ -34,7 +33,7 @@ class ProductController(private val productService: ProductService) {
         ): ResponseEntity<List<ProductView>> {
         logger.info("[GET] | /product | userId: $authHeaderUserId")
 
-        return ResponseEntity.ok(productService.findAll(authHeaderUserId).toProductView())
+        return ResponseEntity.ok(productService.findAll(authHeaderUserId).toPurchaseView())
     }
 
     @GetMapping("/name/{name}")
@@ -43,7 +42,7 @@ class ProductController(private val productService: ProductService) {
         @PathVariable name: String): ResponseEntity<ProductView> {
         logger.info("[GET] | /product/name/{name} | name: $name")
 
-        return ResponseEntity.ok(productService.findByName(authHeaderUserId,name).toProductView())
+        return ResponseEntity.ok(productService.findByName(authHeaderUserId,name).toPurchaseView())
     }
 
 //incluir produto view
@@ -53,7 +52,7 @@ class ProductController(private val productService: ProductService) {
         @PathVariable productId: Long): ResponseEntity<ProductView> {
         logger.info("[GET] | /product/id/{productId} | productId: $productId")
 
-        return ResponseEntity.ok(productService.findById(authHeaderUserId,productId).toProductView())
+        return ResponseEntity.ok(productService.findById(authHeaderUserId,productId).toPurchaseView())
     }
     @Transactional
     @PutMapping("/{productId}")
@@ -62,7 +61,7 @@ class ProductController(private val productService: ProductService) {
         @RequestBody @Valid productDTO: ProductDTO, @PathVariable productId: Long): ResponseEntity<ProductView> {
         logger.info("[PUT] | /product/{productId} | itemId: $productId ")
 
-        return ResponseEntity.ok(productService.update(authHeaderUserId,productId, productDTO).toProductView())
+        return ResponseEntity.ok(productService.update(authHeaderUserId,productId, productDTO).toPurchaseView())
     }
 
 }
