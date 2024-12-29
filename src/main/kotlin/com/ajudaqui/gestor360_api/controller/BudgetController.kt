@@ -1,9 +1,7 @@
 package com.ajudaqui.gestor360_api.controller
 
-import com.ajudaqui.gestor360_api.dto.ItemDTO
-import com.ajudaqui.gestor360_api.entity.Item
 import com.ajudaqui.gestor360_api.kafka.service.item.budgetItemDTO
-import com.ajudaqui.gestor360_api.service.BudgetService
+import com.ajudaqui.gestor360_api.kafka.service.ProducerService
 import jakarta.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/v1/budget")
 class BudgetController(
-    private val budgetService: BudgetService
+    private val budgetService: ProducerService
 ) {
     private val logger = LoggerFactory.getLogger(BudgetController::class.java)
 
