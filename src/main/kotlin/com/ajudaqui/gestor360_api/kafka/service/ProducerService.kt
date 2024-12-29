@@ -1,7 +1,7 @@
 package com.ajudaqui.gestor360_api.kafka.service
 
 import com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO
-import com.ajudaqui.gestor360_api.kafka.service.item.budgetItemDTO
+import com.ajudaqui.gestor360_api.kafka.service.item.BudgetItemDTO
 import com.ajudaqui.gestor360_api.service.ItemService
 import com.ajudaqui.gestor360_api.utils.ETopics
 import org.springframework.kafka.core.KafkaTemplate
@@ -14,11 +14,9 @@ import org.springframework.stereotype.Service
 data class ProducerService(
     private val template: KafkaTemplate<String, ByteArray>,
     private val itemService: ItemService
-
-
 ) {
 
-    fun sendBudget(userId: Long, budgetItensDTO: List<budgetItemDTO>) {
+    fun sendBudget(userId: Long, budgetItensDTO: List<BudgetItemDTO>) {
         val byteArray = itemListToByteArray(budgetItensDTO)
 
         sendToKafka(ETopics.budget_01.toString(), byteArray)
@@ -36,7 +34,7 @@ data class ProducerService(
         print("Mensagem enviada com sucesso para o tópico: $topic")
     }
 
-    fun itemListToByteArray(budgetItensDTO: List<budgetItemDTO>): ByteArray {
+    fun itemListToByteArray(budgetItensDTO: List<BudgetItemDTO>): ByteArray {
         // Obtém os itens do serviço
         val itens = itemService.findByIds(budgetItensDTO.map { it.itemId })
         val itemsList = itens.zip(budgetItensDTO.map { it.quantity }) { item, quantity ->
