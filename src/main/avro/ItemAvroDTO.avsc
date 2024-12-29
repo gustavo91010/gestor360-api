@@ -1,0 +1,22 @@
+{
+  "type": "array",
+  "items": {
+    "type": "record",
+    "name": "ItemAvroDTO",
+    "namespace":"com.ajudaqui.gestor360_api.kafka.entity",
+    "fields": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "brand",
+        "type": "string"
+      },
+      {
+        "name": "quantity",
+        "type": "double"
+      }
+    ]
+  }
+}

@@ -33,7 +33,7 @@ data class PurchaseItemService(
         purchaseItemRepository.findById(purchaseItemId).takeIf { it.isPresent }
             ?.get()
             ?.takeIf { it.id == userId }
-            ?: throw NotAutorizationException("Item da compra não localizado")
+            ?: throw NotAutorizationException("com.ajudaqui.gestor360_api.avro.Item da compra não localizado")
 
     fun findByPurchaseId(userId: Long, purchaseId: Long): List<PurchaseItem> {
 

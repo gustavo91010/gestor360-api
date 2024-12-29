@@ -29,7 +29,7 @@ class ProductServiceTest {
     )
     private val item = Item(
         id = 1,
-        name = "Item Teste",
+        name = "com.ajudaqui.gestor360_api.avro.Item Teste",
         brand = "marca test",
         unitCost = BigDecimal("10.00"),
         users = user,

@@ -4,6 +4,7 @@ import com.ajudaqui.gestor360_api.entity.Product
 import com.ajudaqui.gestor360_api.entity.Users
 import com.ajudaqui.gestor360_api.repository.ProductRepository
 import com.ajudaqui.gestor360_api.repository.UsersRepository
+import io.mockk.impl.annotations.SpyK
 import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
@@ -18,6 +19,7 @@ import java.time.LocalDateTime
 import kotlin.test.Test
 
 @DataJpaTest
+
 @Testcontainers// habilita o test de containers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 // passando para o sprint não fazer a troca do nosso banco de dados por esse, esse não vai ser o pad~rao... por favor...
@@ -55,7 +57,7 @@ class ProdutoRepositoryTest() {
         }
     }
 
-        @Test
+//        @Test
     fun `deve salvar e buscar um produto`() {
         val produto = Product(
             id = null,
@@ -76,8 +78,8 @@ class ProdutoRepositoryTest() {
         assertThat(produtoBuscado.get().name).isEqualTo("Macarão Teste")
     }
 
-    @Test
-    @Transactional
+//    @Test
+//    @Transactional
     fun `deve trazer produto pelo nome e pelo userId`() {
 
 

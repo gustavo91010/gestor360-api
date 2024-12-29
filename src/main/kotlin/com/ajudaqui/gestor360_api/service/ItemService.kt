@@ -16,7 +16,7 @@ data class ItemService(
 
     fun create(itemDTO: ItemDTO, userId: Long): Item {
         if (itemRepository.findByNameAndBrand(itemDTO.name, itemDTO.brand, userId).isNotEmpty()) {
-            throw MessageException("Item já registrado")
+            throw MessageException("com.ajudaqui.gestor360_api.avro.Item já registrado")
         }
         return itemDTO.let {
             save(
@@ -35,7 +35,7 @@ data class ItemService(
 
     fun findById(userId: Long, itemId: Long): Item =
         itemRepository.findById(itemId)
-            .getOrElse { throw NoSuchElementException("Item with ID $itemId not found") }
+            .getOrElse { throw NoSuchElementException("com.ajudaqui.gestor360_api.avro.Item with ID $itemId not found") }
             .takeIf { it.users.id == userId }
             ?: throw NotAutorizationException("User with ID $userId is not authorized to access item $itemId")
 
@@ -63,7 +63,7 @@ data class ItemService(
 
     fun delete(itemId: Long, itemId1: Long) {
         val item =
-            itemRepository.findById(itemId).orElseThrow { NoSuchElementException("Item with ID $itemId not found") }
+            itemRepository.findById(itemId).orElseThrow { NoSuchElementException("com.ajudaqui.gestor360_api.avro.Item with ID $itemId not found") }
 
         itemRepository.delete(item)
     }

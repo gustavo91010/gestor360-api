@@ -73,7 +73,7 @@ class ItemServiceTest {
             itemService.create(itemDTO, userId = user.id!!)
 
         }
-        assertThat(exception.message).isEqualTo("Item já registrado")
+        assertThat(exception.message).isEqualTo("com.ajudaqui.gestor360_api.avro.Item já registrado")
         verify(exactly = 1) { itemRepository.findByNameAndBrand(any(), any(), any()) }
         verify(exactly = 0) { itemRepository.save(any()) }
     }
@@ -91,7 +91,7 @@ class ItemServiceTest {
         val exception = assertThrows<NoSuchElementException> {
             itemService.findById(user.id!!, item.id!!)
         }
-        assertThat(exception.message).isEqualTo("Item with ID ${item.id!!} not found")
+        assertThat(exception.message).isEqualTo("com.ajudaqui.gestor360_api.avro.Item with ID ${item.id!!} not found")
     }
     @Test
     fun shouldThrowExceptionIfUserIdIsInvalid(){
