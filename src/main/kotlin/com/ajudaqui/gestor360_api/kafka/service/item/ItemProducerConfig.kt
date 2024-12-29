@@ -9,6 +9,7 @@ import org.springframework.kafka.core.ProducerFactory
 @Configuration
 class ItemProducerConfig {
     @Bean
-    fun itemProducerTemplate(factor: ProducerFactory<String, ItemAvroDTO>): KafkaTemplate<String, ItemAvroDTO> =
+//    fun itemProducerTemplate(factor: ProducerFactory<String, ItemAvroDTO>): KafkaTemplate<String, ItemAvroDTO> =
+    fun itemProducerTemplate(factor: ProducerFactory<String, ByteArray>): KafkaTemplate<String, ByteArray> =
         KafkaTemplate(factor)
 }
