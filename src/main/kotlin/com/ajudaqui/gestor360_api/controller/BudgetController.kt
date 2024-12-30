@@ -2,6 +2,7 @@ package com.ajudaqui.gestor360_api.controller
 
 import com.ajudaqui.gestor360_api.kafka.service.item.BudgetItemDTO
 import com.ajudaqui.gestor360_api.kafka.service.ProducerService
+import com.ajudaqui.gestor360_api.view.MessageView
 import jakarta.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -18,9 +19,9 @@ class BudgetController(
     @Transactional
     @PostMapping
     fun register(@RequestBody budgetItensDTO: List<BudgetItemDTO>,
-                 @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<String> {
+                 @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<MessageView> {
         logger.info("[POST] | /budget | userId: $authHeaderUserId")
         budgetService.sendBudget(authHeaderUserId,budgetItensDTO)
-        return ResponseEntity.status(HttpStatus.CREATED).body("Mensagem enviada")
+        return ResponseEntity.status(HttpStatus.CREATED).body(MessageView("Mensagem enviada"))
     }
 }

@@ -1,6 +1,7 @@
 package com.ajudaqui.gestor360_api.kafka.service
 
-import com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO
+import com.ajudaqui.gestor360_api.kafka.entity.BudgetItem
+import com.ajudaqui.gestor360_api.kafka.entity.BudgetItems
 import com.ajudaqui.gestor360_api.kafka.service.item.BudgetItemDTO
 import com.ajudaqui.gestor360_api.service.ItemService
 import com.ajudaqui.gestor360_api.utils.ETopics
@@ -12,52 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 data class ProducerService(
-    private val template: KafkaTemplate<String, ByteArray>,
+    private val template: KafkaTemplate<String, BudgetItems>,
     private val itemService: ItemService
 ) {
-
     fun sendBudget(userId: Long, budgetItensDTO: List<BudgetItemDTO>) {
-        val byteArray = itemListToByteArray(budgetItensDTO)
 
-        sendToKafka(ETopics.budget_01.toString(), byteArray)
-    }
-
-    fun sendToKafka(topic: String, byteArray: ByteArray) {
-
-        // Criando o objeto da mensagem
-        val message: Message<ByteArray> = MessageBuilder
-            .withPayload(byteArray)
-            .setHeader(KafkaHeaders.TOPIC, topic)
-            .build()
-        // Enviando a mensagem para o Kafka
-        template.send(message)
-        print("Mensagem enviada com sucesso para o tópico: $topic")
-    }
-
-    fun itemListToByteArray(budgetItensDTO: List<BudgetItemDTO>): ByteArray {
-        // Obtém os itens do serviço
         val itens = itemService.findByIds(budgetItensDTO.map { it.itemId })
-        val itemsList = itens.zip(budgetItensDTO.map { it.quantity }) { item, quantity ->
-            ItemAvroDTO.newBuilder()
-                .setName(item.name)
-                .setBrand(item.brand)
-                .setQuantity(quantity)
+
+        val humta = Array<BudgetItem>(itens.size) { index ->
+            BudgetItem.newBuilder()
+                .setName(itens[index].name)
+                .setBrand(itens[index].brand)
+                .setQuantity(budgetItensDTO[index].quantity)
                 .build()
-        }.toList()
-
-        println("Objeto message: $itemsList")
-        // Serializando a lista de itens para um ByteArray
-        val schema = ItemAvroDTO.getClassSchema()
-        val writer = org.apache.avro.specific.SpecificData.get().createDatumWriter(schema)
-        val outputStream = java.io.ByteArrayOutputStream()
-        val encoder = org.apache.avro.io.EncoderFactory.get().binaryEncoder(outputStream, null)
-
-        // Escreve todos os itens no encoder
-        itemsList.forEach { item ->
-            writer.write(item, encoder)
         }
+        humta.forEach { it.toString() }
+        val budgetItems = BudgetItems.newBuilder()
+            .setItems(humta.toList())
+            .build()
 
-        encoder.flush()
-        return outputStream.toByteArray()
+        template.send(ETopics.budget_03.toString(), budgetItems)
     }
 }

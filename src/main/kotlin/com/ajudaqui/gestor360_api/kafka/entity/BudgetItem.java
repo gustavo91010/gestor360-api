@@ -12,23 +12,23 @@ import org.apache.avro.message.SchemaStore;
 
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 5676084067949774582L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ItemAvroDTO\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}");
+public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = 5085930566984618394L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"BudgetItem\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<ItemAvroDTO> ENCODER =
-      new BinaryMessageEncoder<ItemAvroDTO>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<BudgetItem> ENCODER =
+      new BinaryMessageEncoder<BudgetItem>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<ItemAvroDTO> DECODER =
-      new BinaryMessageDecoder<ItemAvroDTO>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<BudgetItem> DECODER =
+      new BinaryMessageDecoder<BudgetItem>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageDecoder instance used by this class.
    */
-  public static BinaryMessageDecoder<ItemAvroDTO> getDecoder() {
+  public static BinaryMessageDecoder<BudgetItem> getDecoder() {
     return DECODER;
   }
 
@@ -36,17 +36,17 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
    * Create a new BinaryMessageDecoder instance for this class that uses the specified {@link SchemaStore}.
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    */
-  public static BinaryMessageDecoder<ItemAvroDTO> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<ItemAvroDTO>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<BudgetItem> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<BudgetItem>(MODEL$, SCHEMA$, resolver);
   }
 
-  /** Serializes this ItemAvroDTO to a ByteBuffer. */
+  /** Serializes this BudgetItem to a ByteBuffer. */
   public java.nio.ByteBuffer toByteBuffer() throws java.io.IOException {
     return ENCODER.encode(this);
   }
 
-  /** Deserializes a ItemAvroDTO from a ByteBuffer. */
-  public static ItemAvroDTO fromByteBuffer(
+  /** Deserializes a BudgetItem from a ByteBuffer. */
+  public static BudgetItem fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -60,7 +60,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public ItemAvroDTO() {}
+  public BudgetItem() {}
 
   /**
    * All-args constructor.
@@ -68,7 +68,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
    * @param brand The new value for brand
    * @param quantity The new value for quantity
    */
-  public ItemAvroDTO(java.lang.CharSequence name, java.lang.CharSequence brand, java.lang.Double quantity) {
+  public BudgetItem(java.lang.CharSequence name, java.lang.CharSequence brand, java.lang.Double quantity) {
     this.name = name;
     this.brand = brand;
     this.quantity = quantity;
@@ -145,36 +145,36 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
   }
 
   /**
-   * Creates a new ItemAvroDTO RecordBuilder.
-   * @return A new ItemAvroDTO RecordBuilder
+   * Creates a new BudgetItem RecordBuilder.
+   * @return A new BudgetItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder newBuilder() {
-    return new com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder();
+  public static com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder newBuilder() {
+    return new com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder();
   }
 
   /**
-   * Creates a new ItemAvroDTO RecordBuilder by copying an existing Builder.
+   * Creates a new BudgetItem RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new ItemAvroDTO RecordBuilder
+   * @return A new BudgetItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder other) {
-    return new com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder(other);
+  public static com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder other) {
+    return new com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder(other);
   }
 
   /**
-   * Creates a new ItemAvroDTO RecordBuilder by copying an existing ItemAvroDTO instance.
+   * Creates a new BudgetItem RecordBuilder by copying an existing BudgetItem instance.
    * @param other The existing instance to copy.
-   * @return A new ItemAvroDTO RecordBuilder
+   * @return A new BudgetItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO other) {
-    return new com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder(other);
+  public static com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem other) {
+    return new com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder(other);
   }
 
   /**
-   * RecordBuilder for ItemAvroDTO instances.
+   * RecordBuilder for BudgetItem instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<ItemAvroDTO>
-    implements org.apache.avro.data.RecordBuilder<ItemAvroDTO> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<BudgetItem>
+    implements org.apache.avro.data.RecordBuilder<BudgetItem> {
 
     private java.lang.CharSequence name;
     private java.lang.CharSequence brand;
@@ -189,7 +189,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder other) {
+    private Builder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
@@ -206,10 +206,10 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
     }
 
     /**
-     * Creates a Builder by copying an existing ItemAvroDTO instance
+     * Creates a Builder by copying an existing BudgetItem instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO other) {
+    private Builder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem other) {
             super(SCHEMA$);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
@@ -238,7 +238,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'name'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder setName(java.lang.CharSequence value) {
+    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder setName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.name = value;
       fieldSetFlags()[0] = true;
@@ -258,7 +258,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'name' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder clearName() {
+    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder clearName() {
       name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -277,7 +277,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'brand'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder setBrand(java.lang.CharSequence value) {
+    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder setBrand(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.brand = value;
       fieldSetFlags()[1] = true;
@@ -297,7 +297,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'brand' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder clearBrand() {
+    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder clearBrand() {
       brand = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -316,7 +316,7 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'quantity'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder setQuantity(double value) {
+    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder setQuantity(double value) {
       validate(fields()[2], value);
       this.quantity = value;
       fieldSetFlags()[2] = true;
@@ -336,16 +336,16 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'quantity' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.ItemAvroDTO.Builder clearQuantity() {
+    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder clearQuantity() {
       fieldSetFlags()[2] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public ItemAvroDTO build() {
+    public BudgetItem build() {
       try {
-        ItemAvroDTO record = new ItemAvroDTO();
+        BudgetItem record = new BudgetItem();
         record.name = fieldSetFlags()[0] ? this.name : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.brand = fieldSetFlags()[1] ? this.brand : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.quantity = fieldSetFlags()[2] ? this.quantity : (java.lang.Double) defaultValue(fields()[2]);
@@ -357,8 +357,8 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<ItemAvroDTO>
-    WRITER$ = (org.apache.avro.io.DatumWriter<ItemAvroDTO>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<BudgetItem>
+    WRITER$ = (org.apache.avro.io.DatumWriter<BudgetItem>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -366,8 +366,8 @@ public class ItemAvroDTO extends org.apache.avro.specific.SpecificRecordBase imp
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<ItemAvroDTO>
-    READER$ = (org.apache.avro.io.DatumReader<ItemAvroDTO>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<BudgetItem>
+    READER$ = (org.apache.avro.io.DatumReader<BudgetItem>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
