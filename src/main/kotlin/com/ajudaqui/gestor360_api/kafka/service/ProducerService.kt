@@ -4,9 +4,9 @@ import com.ajudaqui.gestor360_api.kafka.dto.BudgetDTO
 import com.ajudaqui.gestor360_api.kafka.entity.Budget
 import com.ajudaqui.gestor360_api.kafka.entity.BudgetItem
 import com.ajudaqui.gestor360_api.service.ItemService
-import com.ajudaqui.gestor360_api.utils.ETopics
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.kafka.support.SendResult
@@ -18,13 +18,16 @@ import java.util.concurrent.CompletableFuture
 @Service
 class ProducerService(
     private val template: KafkaTemplate<String, Budget>,
-    private val itemService: ItemService
+    private val itemService: ItemService,
 ) {
+    @Value("\${spring.kafka.consumer.topic.budget}")
+    private lateinit var topic: String
+
     private val logger: Logger = LoggerFactory.getLogger(ProducerService::class.java)
 
     fun sendBudget(userId: Long, budgetItensDTO: List<BudgetDTO>) {
         val code = "code: $userId";
-        val topic = ETopics.budget_04.toString();
+
         val itens = itemService.findByIds(budgetItensDTO.map { it.itemId })
 
         val itensBudget = Array<BudgetItem>(itens.size) { index ->
