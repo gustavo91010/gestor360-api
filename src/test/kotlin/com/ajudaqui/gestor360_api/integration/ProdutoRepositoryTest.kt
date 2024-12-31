@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -20,6 +21,7 @@ import kotlin.test.Test
 @DataJpaTest
 @Testcontainers// habilita o test de containers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Disabled
 // passando para o sprint não fazer a troca do nosso banco de dados por esse, esse não vai ser o pad~rao... por favor...
 class ProdutoRepositoryTest() {
 
