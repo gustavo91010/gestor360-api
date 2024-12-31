@@ -1,0 +1,31 @@
+    {
+  "type": "record",
+  "name": "Budget",
+  "namespace": "com.ajudaqui.gestor360_api.kafka.entity",
+  "fields": [
+    {
+      "name": "items",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "BudgetItem",
+          "fields": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "brand",
+              "type": "string"
+            },
+            {
+              "name": "quantity",
+              "type": "double"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
