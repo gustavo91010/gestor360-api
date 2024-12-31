@@ -1,15 +1,19 @@
-    {
+ {
   "type": "record",
-  "name": "Budget",
+  "name": "Order",
   "namespace": "com.ajudaqui.gestor360_api.kafka.entity",
   "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
     {
       "name": "items",
       "type": {
         "type": "array",
         "items": {
           "type": "record",
-          "name": "BudgetItem",
+          "name": "OrderItem",
           "fields": [
             {
               "name": "name",

@@ -5,62 +5,82 @@
  */
 package com.ajudaqui.gestor360_api.kafka.entity;
 
+import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
+import org.apache.avro.util.Utf8;
 import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
-@SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 5085930566984618394L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"BudgetItem\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}");
+public class OrderItem extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = -1294317218465788603L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OrderItem\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<BudgetItem> ENCODER =
-      new BinaryMessageEncoder<BudgetItem>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<OrderItem> ENCODER =
+      new BinaryMessageEncoder<OrderItem>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<BudgetItem> DECODER =
-      new BinaryMessageDecoder<BudgetItem>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<OrderItem> DECODER =
+      new BinaryMessageDecoder<OrderItem>(MODEL$, SCHEMA$);
+
+  /**
+   * Return the BinaryMessageEncoder instance used by this class.
+   * @return the message encoder used by this class
+   */
+  public static BinaryMessageEncoder<OrderItem> getEncoder() {
+    return ENCODER;
+  }
 
   /**
    * Return the BinaryMessageDecoder instance used by this class.
+   * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<BudgetItem> getDecoder() {
+  public static BinaryMessageDecoder<OrderItem> getDecoder() {
     return DECODER;
   }
 
   /**
    * Create a new BinaryMessageDecoder instance for this class that uses the specified {@link SchemaStore}.
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
+   * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<BudgetItem> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<BudgetItem>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<OrderItem> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<OrderItem>(MODEL$, SCHEMA$, resolver);
   }
 
-  /** Serializes this BudgetItem to a ByteBuffer. */
+  /**
+   * Serializes this OrderItem to a ByteBuffer.
+   * @return a buffer holding the serialized data for this instance
+   * @throws java.io.IOException if this instance could not be serialized
+   */
   public java.nio.ByteBuffer toByteBuffer() throws java.io.IOException {
     return ENCODER.encode(this);
   }
 
-  /** Deserializes a BudgetItem from a ByteBuffer. */
-  public static BudgetItem fromByteBuffer(
+  /**
+   * Deserializes a OrderItem from a ByteBuffer.
+   * @param b a byte buffer holding serialized data for an instance of this class
+   * @return a OrderItem instance decoded from the given buffer
+   * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
+   */
+  public static OrderItem fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
 
-  @Deprecated public java.lang.CharSequence name;
-  @Deprecated public java.lang.CharSequence brand;
-  @Deprecated public double quantity;
+   private java.lang.CharSequence name;
+   private java.lang.CharSequence brand;
+   private double quantity;
 
   /**
    * Default constructor.  Note that this does not initialize fields
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public BudgetItem() {}
+  public OrderItem() {}
 
   /**
    * All-args constructor.
@@ -68,12 +88,13 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
    * @param brand The new value for brand
    * @param quantity The new value for quantity
    */
-  public BudgetItem(java.lang.CharSequence name, java.lang.CharSequence brand, java.lang.Double quantity) {
+  public OrderItem(java.lang.CharSequence name, java.lang.CharSequence brand, java.lang.Double quantity) {
     this.name = name;
     this.brand = brand;
     this.quantity = quantity;
   }
 
+  public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
@@ -81,7 +102,7 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
     case 0: return name;
     case 1: return brand;
     case 2: return quantity;
-    default: throw new org.apache.avro.AvroRuntimeException("Bad index");
+    default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
@@ -92,7 +113,7 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
     case 0: name = (java.lang.CharSequence)value$; break;
     case 1: brand = (java.lang.CharSequence)value$; break;
     case 2: quantity = (java.lang.Double)value$; break;
-    default: throw new org.apache.avro.AvroRuntimeException("Bad index");
+    default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
@@ -103,6 +124,7 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
   public java.lang.CharSequence getName() {
     return name;
   }
+
 
   /**
    * Sets the value of the 'name' field.
@@ -120,6 +142,7 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
     return brand;
   }
 
+
   /**
    * Sets the value of the 'brand' field.
    * @param value the value to set.
@@ -132,49 +155,59 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
    * Gets the value of the 'quantity' field.
    * @return The value of the 'quantity' field.
    */
-  public java.lang.Double getQuantity() {
+  public double getQuantity() {
     return quantity;
   }
+
 
   /**
    * Sets the value of the 'quantity' field.
    * @param value the value to set.
    */
-  public void setQuantity(java.lang.Double value) {
+  public void setQuantity(double value) {
     this.quantity = value;
   }
 
   /**
-   * Creates a new BudgetItem RecordBuilder.
-   * @return A new BudgetItem RecordBuilder
+   * Creates a new OrderItem RecordBuilder.
+   * @return A new OrderItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder newBuilder() {
-    return new com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder();
+  public static com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder newBuilder() {
+    return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder();
   }
 
   /**
-   * Creates a new BudgetItem RecordBuilder by copying an existing Builder.
+   * Creates a new OrderItem RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new BudgetItem RecordBuilder
+   * @return A new OrderItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder other) {
-    return new com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder(other);
+  public static com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder other) {
+    if (other == null) {
+      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder();
+    } else {
+      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder(other);
+    }
   }
 
   /**
-   * Creates a new BudgetItem RecordBuilder by copying an existing BudgetItem instance.
+   * Creates a new OrderItem RecordBuilder by copying an existing OrderItem instance.
    * @param other The existing instance to copy.
-   * @return A new BudgetItem RecordBuilder
+   * @return A new OrderItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem other) {
-    return new com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder(other);
+  public static com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem other) {
+    if (other == null) {
+      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder();
+    } else {
+      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder(other);
+    }
   }
 
   /**
-   * RecordBuilder for BudgetItem instances.
+   * RecordBuilder for OrderItem instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<BudgetItem>
-    implements org.apache.avro.data.RecordBuilder<BudgetItem> {
+  @org.apache.avro.specific.AvroGenerated
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<OrderItem>
+    implements org.apache.avro.data.RecordBuilder<OrderItem> {
 
     private java.lang.CharSequence name;
     private java.lang.CharSequence brand;
@@ -189,28 +222,28 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder other) {
+    private Builder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
-        fieldSetFlags()[0] = true;
+        fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (isValidValue(fields()[1], other.brand)) {
         this.brand = data().deepCopy(fields()[1].schema(), other.brand);
-        fieldSetFlags()[1] = true;
+        fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
       if (isValidValue(fields()[2], other.quantity)) {
         this.quantity = data().deepCopy(fields()[2].schema(), other.quantity);
-        fieldSetFlags()[2] = true;
+        fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
     }
 
     /**
-     * Creates a Builder by copying an existing BudgetItem instance
+     * Creates a Builder by copying an existing OrderItem instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.BudgetItem other) {
-            super(SCHEMA$);
+    private Builder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem other) {
+      super(SCHEMA$);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
         fieldSetFlags()[0] = true;
@@ -233,12 +266,13 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
       return name;
     }
 
+
     /**
       * Sets the value of the 'name' field.
       * @param value The value of 'name'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder setName(java.lang.CharSequence value) {
+    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder setName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.name = value;
       fieldSetFlags()[0] = true;
@@ -258,7 +292,7 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
       * Clears the value of the 'name' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder clearName() {
+    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder clearName() {
       name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -272,12 +306,13 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
       return brand;
     }
 
+
     /**
       * Sets the value of the 'brand' field.
       * @param value The value of 'brand'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder setBrand(java.lang.CharSequence value) {
+    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder setBrand(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.brand = value;
       fieldSetFlags()[1] = true;
@@ -297,7 +332,7 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
       * Clears the value of the 'brand' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder clearBrand() {
+    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder clearBrand() {
       brand = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -307,16 +342,17 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
       * Gets the value of the 'quantity' field.
       * @return The value.
       */
-    public java.lang.Double getQuantity() {
+    public double getQuantity() {
       return quantity;
     }
+
 
     /**
       * Sets the value of the 'quantity' field.
       * @param value The value of 'quantity'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder setQuantity(double value) {
+    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder setQuantity(double value) {
       validate(fields()[2], value);
       this.quantity = value;
       fieldSetFlags()[2] = true;
@@ -336,20 +372,22 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
       * Clears the value of the 'quantity' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.BudgetItem.Builder clearQuantity() {
+    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder clearQuantity() {
       fieldSetFlags()[2] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public BudgetItem build() {
+    public OrderItem build() {
       try {
-        BudgetItem record = new BudgetItem();
+        OrderItem record = new OrderItem();
         record.name = fieldSetFlags()[0] ? this.name : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.brand = fieldSetFlags()[1] ? this.brand : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.quantity = fieldSetFlags()[2] ? this.quantity : (java.lang.Double) defaultValue(fields()[2]);
         return record;
+      } catch (org.apache.avro.AvroMissingFieldException e) {
+        throw e;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
       }
@@ -357,8 +395,8 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<BudgetItem>
-    WRITER$ = (org.apache.avro.io.DatumWriter<BudgetItem>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<OrderItem>
+    WRITER$ = (org.apache.avro.io.DatumWriter<OrderItem>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -366,12 +404,67 @@ public class BudgetItem extends org.apache.avro.specific.SpecificRecordBase impl
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<BudgetItem>
-    READER$ = (org.apache.avro.io.DatumReader<BudgetItem>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<OrderItem>
+    READER$ = (org.apache.avro.io.DatumReader<OrderItem>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
+  @Override protected boolean hasCustomCoders() { return true; }
+
+  @Override public void customEncode(org.apache.avro.io.Encoder out)
+    throws java.io.IOException
+  {
+    out.writeString(this.name);
+
+    out.writeString(this.brand);
+
+    out.writeDouble(this.quantity);
+
+  }
+
+  @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
+    throws java.io.IOException
+  {
+    org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
+    if (fieldOrder == null) {
+      this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
+
+      this.brand = in.readString(this.brand instanceof Utf8 ? (Utf8)this.brand : null);
+
+      this.quantity = in.readDouble();
+
+    } else {
+      for (int i = 0; i < 3; i++) {
+        switch (fieldOrder[i].pos()) {
+        case 0:
+          this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
+          break;
+
+        case 1:
+          this.brand = in.readString(this.brand instanceof Utf8 ? (Utf8)this.brand : null);
+          break;
+
+        case 2:
+          this.quantity = in.readDouble();
+          break;
+
+        default:
+          throw new java.io.IOException("Corrupt ResolvingDecoder.");
+        }
+      }
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+

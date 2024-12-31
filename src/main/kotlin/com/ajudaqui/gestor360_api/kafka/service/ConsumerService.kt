@@ -1,6 +1,6 @@
 package com.ajudaqui.gestor360_api.kafka.service
 
-import com.ajudaqui.gestor360_api.kafka.entity.Budget
+import com.ajudaqui.gestor360_api.kafka.entity.Order
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
@@ -12,9 +12,9 @@ class ConsumerService {
     private val logger: Logger = LoggerFactory.getLogger(ConsumerService::class.java)
 
 
-    @KafkaListener(topics = ["\${spring.kafka.consumer.topic.budget}"], groupId = "gestor-consumer")
-    fun consumer(@Payload pessoaDTO: Budget) {
-        logger.info("Mensagem recebida: $pessoaDTO")
+    @KafkaListener(topics = ["\${spring.kafka.consumer.topic.order}"], groupId = "gestor-consumer")
+    fun consumer(@Payload order: Order) {
+        logger.info("Mensagem recebida: $order")
     }
     @KafkaListener(topics = ["\${spring.kafka.consumer.topic.financial}"], groupId = "gestor-consumer")
     fun consumer(@Payload financial: String) {

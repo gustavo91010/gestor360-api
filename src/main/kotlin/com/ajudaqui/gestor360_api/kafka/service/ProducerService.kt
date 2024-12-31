@@ -1,8 +1,8 @@
 package com.ajudaqui.gestor360_api.kafka.service
 
-import com.ajudaqui.gestor360_api.kafka.dto.BudgetDTO
-import com.ajudaqui.gestor360_api.kafka.entity.Budget
-import com.ajudaqui.gestor360_api.kafka.entity.BudgetItem
+import com.ajudaqui.gestor360_api.kafka.dto.OrderDTO
+import com.ajudaqui.gestor360_api.kafka.entity.Order
+import com.ajudaqui.gestor360_api.kafka.entity.OrderItem
 import com.ajudaqui.gestor360_api.service.ItemService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,42 +13,44 @@ import org.springframework.kafka.support.SendResult
 import org.springframework.messaging.support.MessageBuilder
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @Service
 class ProducerService(
-    private val template: KafkaTemplate<String, Budget>,
+    private val template: KafkaTemplate<String, Order>,
     private val itemService: ItemService,
 ) {
-    @Value("\${spring.kafka.consumer.topic.budget}")
+    @Value("\${spring.kafka.consumer.topic.order}")
     private lateinit var topic: String
 
     private val logger: Logger = LoggerFactory.getLogger(ProducerService::class.java)
 
-    fun sendBudget(userId: Long, budgetItensDTO: List<BudgetDTO>) {
+    fun send(userId: Long, budgetItensDTO: List<OrderDTO>) {
         val code = "code: $userId";
 
         val itens = itemService.findByIds(budgetItensDTO.map { it.itemId })
 
-        val itensBudget = Array<BudgetItem>(itens.size) { index ->
-            BudgetItem.newBuilder()
+        val itensBudget = Array<OrderItem>(itens.size) { index ->
+            OrderItem.newBuilder()
                 .setName(itens[index].name)
                 .setBrand(itens[index].brand)
                 .setQuantity(budgetItensDTO[index].quantity)
                 .build()
         }
-        val budget = Budget.newBuilder()
+        val order = Order.newBuilder()
+            .setOrderId(UUID.randomUUID().toString())
             .setItems(itensBudget.toList())
             .build()
-        val message = createMessageWithHeaders(code, budget, topic)
-        val future: CompletableFuture<SendResult<String, Budget>> = template.send(message)
+        val message = createMessageWithHeaders(code, order, topic)
+        val future: CompletableFuture<SendResult<String, Order>> = template.send(message)
         future.whenComplete { result, ex ->
-            ex?.also { logger.info("Pessoa enviada com sucesso. MessageId: $code") }
+            ex?.also { logger.info("Evento enviada com sucesso. MessageId: $code") }
                 ?: logger.error("Erro no envio. MessageId: $code, erro: ${ex.message}")
         }
     }
 
-    private fun createMessageWithHeaders(messageId: String, pessoaDTO: Budget, topic: String) =
+    private fun createMessageWithHeaders(messageId: String, pessoaDTO: Order, topic: String) =
         MessageBuilder.withPayload(pessoaDTO)
             .setHeader("hash", pessoaDTO.hashCode())
             .setHeader("version", "1.0.0")
