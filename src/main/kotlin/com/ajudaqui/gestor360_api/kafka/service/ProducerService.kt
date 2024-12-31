@@ -5,7 +5,6 @@ import com.ajudaqui.gestor360_api.kafka.entity.Budget
 import com.ajudaqui.gestor360_api.kafka.entity.BudgetItem
 import com.ajudaqui.gestor360_api.service.ItemService
 import com.ajudaqui.gestor360_api.utils.ETopics
-import org.apache.kafka.common.protocol.Message
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.core.KafkaTemplate
@@ -28,7 +27,7 @@ class ProducerService(
         val topic = ETopics.budget_04.toString();
         val itens = itemService.findByIds(budgetItensDTO.map { it.itemId })
 
-        val humta = Array<BudgetItem>(itens.size) { index ->
+        val itensBudget = Array<BudgetItem>(itens.size) { index ->
             BudgetItem.newBuilder()
                 .setName(itens[index].name)
                 .setBrand(itens[index].brand)
@@ -36,7 +35,7 @@ class ProducerService(
                 .build()
         }
         val budget = Budget.newBuilder()
-            .setItems(humta.toList())
+            .setItems(itensBudget.toList())
             .build()
         val message = createMessageWithHeaders(code, budget, topic)
         val future: CompletableFuture<SendResult<String, Budget>> = template.send(message)
@@ -48,8 +47,6 @@ class ProducerService(
 
     private fun createMessageWithHeaders(messageId: String, pessoaDTO: Budget, topic: String) =
         MessageBuilder.withPayload(pessoaDTO)
-
-
             .setHeader("hash", pessoaDTO.hashCode())
             .setHeader("version", "1.0.0")
             .setHeader("endOfLife", LocalDate.now().plusDays(1L))
