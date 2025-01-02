@@ -40,7 +40,7 @@ class ProducerService(
                 .build()
         }
         val order = Order.newBuilder()
-            .setOrderId(UUID.randomUUID().toString())
+            .setCode(UUID.randomUUID().toString())
             .setItems(itensBudget.toList())
             .setTimestamp(LocalDateTime.now().toString())
             .build()

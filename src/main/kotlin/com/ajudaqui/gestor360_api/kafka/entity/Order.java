@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Order extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -2571871882427929022L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Order\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"orderId\",\"type\":\"string\"},{\"name\":\"items\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"OrderItem\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}}},{\"name\":\"timestamp\",\"type\":\"string\"}]}");
+  private static final long serialVersionUID = 4302008965974337107L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Order\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"code\",\"type\":\"string\"},{\"name\":\"items\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"OrderItem\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}}},{\"name\":\"timestamp\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -71,7 +71,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
     return DECODER.decode(b);
   }
 
-   private java.lang.CharSequence orderId;
+   private java.lang.CharSequence code;
    private java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> items;
    private java.lang.CharSequence timestamp;
 
@@ -84,12 +84,12 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
 
   /**
    * All-args constructor.
-   * @param orderId The new value for orderId
+   * @param code The new value for code
    * @param items The new value for items
    * @param timestamp The new value for timestamp
    */
-  public Order(java.lang.CharSequence orderId, java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> items, java.lang.CharSequence timestamp) {
-    this.orderId = orderId;
+  public Order(java.lang.CharSequence code, java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> items, java.lang.CharSequence timestamp) {
+    this.code = code;
     this.items = items;
     this.timestamp = timestamp;
   }
@@ -99,7 +99,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return orderId;
+    case 0: return code;
     case 1: return items;
     case 2: return timestamp;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
@@ -110,7 +110,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: orderId = (java.lang.CharSequence)value$; break;
+    case 0: code = (java.lang.CharSequence)value$; break;
     case 1: items = (java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>)value$; break;
     case 2: timestamp = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
@@ -118,20 +118,20 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   }
 
   /**
-   * Gets the value of the 'orderId' field.
-   * @return The value of the 'orderId' field.
+   * Gets the value of the 'code' field.
+   * @return The value of the 'code' field.
    */
-  public java.lang.CharSequence getOrderId() {
-    return orderId;
+  public java.lang.CharSequence getCode() {
+    return code;
   }
 
 
   /**
-   * Sets the value of the 'orderId' field.
+   * Sets the value of the 'code' field.
    * @param value the value to set.
    */
-  public void setOrderId(java.lang.CharSequence value) {
-    this.orderId = value;
+  public void setCode(java.lang.CharSequence value) {
+    this.code = value;
   }
 
   /**
@@ -209,7 +209,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Order>
     implements org.apache.avro.data.RecordBuilder<Order> {
 
-    private java.lang.CharSequence orderId;
+    private java.lang.CharSequence code;
     private java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> items;
     private java.lang.CharSequence timestamp;
 
@@ -224,8 +224,8 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
      */
     private Builder(com.ajudaqui.gestor360_api.kafka.entity.Order.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.orderId)) {
-        this.orderId = data().deepCopy(fields()[0].schema(), other.orderId);
+      if (isValidValue(fields()[0], other.code)) {
+        this.code = data().deepCopy(fields()[0].schema(), other.code);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (isValidValue(fields()[1], other.items)) {
@@ -244,8 +244,8 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
      */
     private Builder(com.ajudaqui.gestor360_api.kafka.entity.Order other) {
       super(SCHEMA$);
-      if (isValidValue(fields()[0], other.orderId)) {
-        this.orderId = data().deepCopy(fields()[0].schema(), other.orderId);
+      if (isValidValue(fields()[0], other.code)) {
+        this.code = data().deepCopy(fields()[0].schema(), other.code);
         fieldSetFlags()[0] = true;
       }
       if (isValidValue(fields()[1], other.items)) {
@@ -259,41 +259,41 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
     }
 
     /**
-      * Gets the value of the 'orderId' field.
+      * Gets the value of the 'code' field.
       * @return The value.
       */
-    public java.lang.CharSequence getOrderId() {
-      return orderId;
+    public java.lang.CharSequence getCode() {
+      return code;
     }
 
 
     /**
-      * Sets the value of the 'orderId' field.
-      * @param value The value of 'orderId'.
+      * Sets the value of the 'code' field.
+      * @param value The value of 'code'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder setOrderId(java.lang.CharSequence value) {
+    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder setCode(java.lang.CharSequence value) {
       validate(fields()[0], value);
-      this.orderId = value;
+      this.code = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'orderId' field has been set.
-      * @return True if the 'orderId' field has been set, false otherwise.
+      * Checks whether the 'code' field has been set.
+      * @return True if the 'code' field has been set, false otherwise.
       */
-    public boolean hasOrderId() {
+    public boolean hasCode() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'orderId' field.
+      * Clears the value of the 'code' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder clearOrderId() {
-      orderId = null;
+    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder clearCode() {
+      code = null;
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -383,7 +383,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
     public Order build() {
       try {
         Order record = new Order();
-        record.orderId = fieldSetFlags()[0] ? this.orderId : (java.lang.CharSequence) defaultValue(fields()[0]);
+        record.code = fieldSetFlags()[0] ? this.code : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.items = fieldSetFlags()[1] ? this.items : (java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>) defaultValue(fields()[1]);
         record.timestamp = fieldSetFlags()[2] ? this.timestamp : (java.lang.CharSequence) defaultValue(fields()[2]);
         return record;
@@ -418,7 +418,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeString(this.orderId);
+    out.writeString(this.code);
 
     long size0 = this.items.size();
     out.writeArrayStart();
@@ -442,7 +442,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.orderId = in.readString(this.orderId instanceof Utf8 ? (Utf8)this.orderId : null);
+      this.code = in.readString(this.code instanceof Utf8 ? (Utf8)this.code : null);
 
       long size0 = in.readArrayStart();
       java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> a0 = this.items;
@@ -468,7 +468,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       for (int i = 0; i < 3; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.orderId = in.readString(this.orderId instanceof Utf8 ? (Utf8)this.orderId : null);
+          this.code = in.readString(this.code instanceof Utf8 ? (Utf8)this.code : null);
           break;
 
         case 1:

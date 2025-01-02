@@ -4,7 +4,7 @@
   "namespace": "com.ajudaqui.gestor360_api.kafka.entity",
   "fields": [
     {
-      "name": "orderId",
+      "name": "code",
       "type": "string"
     },
     {

@@ -12,7 +12,7 @@ class ConsumerService {
     private val logger: Logger = LoggerFactory.getLogger(ConsumerService::class.java)
 
 
-    @KafkaListener(topics = ["\${spring.kafka.consumer.topic.order}"], groupId = "gestor-consumer")
+//    @KafkaListener(topics = ["\${spring.kafka.consumer.topic.order}"], groupId = "gestor-consumer")
     fun consumer(@Payload order: Order) {
         logger.info("Mensagem recebida: $order")
     }
