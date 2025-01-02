@@ -13,6 +13,7 @@ import org.springframework.kafka.support.SendResult
 import org.springframework.messaging.support.MessageBuilder
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
@@ -41,6 +42,7 @@ class ProducerService(
         val order = Order.newBuilder()
             .setOrderId(UUID.randomUUID().toString())
             .setItems(itensBudget.toList())
+            .setTimestamp(LocalDateTime.now().toString())
             .build()
         val message = createMessageWithHeaders(code, order, topic)
         val future: CompletableFuture<SendResult<String, Order>> = template.send(message)

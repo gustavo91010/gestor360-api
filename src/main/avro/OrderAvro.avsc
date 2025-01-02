@@ -30,6 +30,10 @@
           ]
         }
       }
+    },
+    {
+      "name": "timestamp",
+      "type": "string"
     }
   ]
 }
