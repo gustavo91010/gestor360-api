@@ -1,0 +1,18 @@
+{
+  "type": "record",
+  "name": "com.ajudaqui.gestor360_api.kafka.entity.BudgetUpdate",
+  "fields": [
+    {
+      "name": "code",
+      "type": "string"
+    },
+    {
+      "name": "status",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "string"
+    }
+  ]
+}
