@@ -11,45 +11,47 @@ import org.springframework.stereotype.Service
 
 @Service
 class UsersService(
-    private val userRepository: UsersRepository,
-    private val rolesRepository: RolesRepository
+        private val userRepository: UsersRepository,
+        private val rolesRepository: RolesRepository
 ) {
 
-    fun create(usersDTO: UsersDTO): Users {
+  fun create(usersDTO: UsersDTO): Users {
 
-        val roles: MutableSet<Roles> = mutableSetOf(assignRole(ERoles.ROLE_USER))
+    val roles: MutableSet<Roles> = mutableSetOf(assignRole(ERoles.ROLE_USER))
 
-        return usersDTO.let {
-            save(Users(name = it.name, email = it.email, password = it.password, roles = roles))
-        }
+    return usersDTO.let {
+      save(Users(name = it.name, email = it.email, password = it.password, roles = roles))
     }
+  }
 
-    private fun save(users: Users): Users = userRepository.save(users)
+  fun save(users: Users): Users = userRepository.save(users)
 
-    fun findById(id: Long): Users =
-        userRepository.findById(id).orElseThrow { NotFoundException("user id $id not found") }
+  fun findById(id: Long): Users =
+          userRepository.findById(id).orElseThrow { NotFoundException("user id $id not found") }
 
-    fun findByEmail(email: String): Users =
-        userRepository.findByEmail(email).orElseThrow { NotFoundException("user email $email not found") }
+  fun findByEmail(email: String): Users =
+          userRepository.findByEmail(email).orElseThrow {
+            NotFoundException("user email $email not found")
+          }
 
-    fun emailRegistry(email: String): Boolean = userRepository.findByEmail(email).isPresent
+  fun emailRegistry(email: String): Boolean = userRepository.findByEmail(email).isPresent
 
-    fun findAll(): MutableList<Users> = userRepository.findAll()
+  fun findAll(): MutableList<Users> = userRepository.findAll()
 
-    fun update(usersDTO: UsersDTO, userId: Long): Users {
-        val user = findById(userId).copy(
-            email = usersDTO.email,
-            name = usersDTO.name,
-            password = usersDTO.password
-        )
-        return save(user)
-    }
+  fun update(usersDTO: UsersDTO, userId: Long): Users {
+    val user =
+            findById(userId)
+                    .copy(
+                            email = usersDTO.email,
+                            name = usersDTO.name,
+                            password = usersDTO.password
+                    )
+    return save(user)
+  }
 
+  fun delete(userId: Long) = userRepository.deleteById(userId)
 
-    fun delete(userId: Long) = userRepository.deleteById(userId)
-
-    private fun assignRole(role: ERoles): Roles =
-        rolesRepository.findByType(role).orElseThrow {
-        NotFoundException("role $role not found")
-    }
+  private fun assignRole(role: ERoles): Roles =
+          rolesRepository.findByType(role).orElseThrow { NotFoundException("role $role not found") }
 }
+

@@ -15,6 +15,7 @@ data class Users(
     val email: String,
     val name: String,
     val password: String,
+    var token: String? = null,
 
     @ManyToMany
     @JoinTable(
@@ -44,7 +45,7 @@ data class Users(
 
     ){
     override fun toString(): String {
-        return "{id: $id, name: $name, email: $email, createdAt: $createdAt, updatedAt $updatedAt purchases_size: ${purchases.size}, products_size: ${products.size}}"
+        return "{id: $id, name: $name, email: $email, Token: $token, createdAt: $createdAt, updatedAt $updatedAt purchases_size: ${purchases.size}, products_size: ${products.size}}"
     }
 }
 

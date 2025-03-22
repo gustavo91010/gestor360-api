@@ -29,7 +29,8 @@ class PurchaseServiceTest {
         id = 1,
         name = "User Teste",
         email = "user_test@email.com",
-        password = "123456"
+        password = "123456",
+        token = "999"
 
     )
     private val item = Item(

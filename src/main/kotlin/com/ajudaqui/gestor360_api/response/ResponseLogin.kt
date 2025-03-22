@@ -5,4 +5,5 @@ import com.ajudaqui.gestor360_api.entity.Roles
 data class ResponseLogin(val id:Long,
     val name: String,
     val email:String,
+    val token: String,
     val roles: Set<Roles>)
