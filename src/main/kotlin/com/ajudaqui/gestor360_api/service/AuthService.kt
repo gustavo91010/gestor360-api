@@ -41,9 +41,7 @@ class AuthService(
       usersService.create(usersDTO)
     }
   }
-  fun lalala(): String {
-    return "lalala"
-  }
+
   fun generatedToken(userId: Long, token: String?): String {
     val currentTime = LocalDateTime.now()
     //
