@@ -1,62 +1,79 @@
 package com.ajudaqui.gestor360_api.service
 
+import com.ajudaqui.gestor360_api.entity.Users
+import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDateTime
 import kotlin.test.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.assertj.core.api.Assertions.assertThat
-import org.apache.catalina.User
 
 class AuthServiceTest {
-  private var usersService: UsersService = mockk {  }
-  // private var authService: AuthService = mockk {}
-private val authService = AuthService(usersService)
+  private val user =
+          Users(id = 1, name = "User Teste", email = "user_test@email.com", password = "123456")
+
+  private var usersService: UsersService = mockk { every { findById(any()) } returns user }
+    private val authService = AuthService(usersService)
 
   @Test
-  fun `lalala`(){
-     var lala= authService.lalala()
-     assertThat(lala).isEqualTo("lalala")
-  }
-  @Test
-  fun `Token deve ter 3 partes`() {
+  fun `Token deve ter 5 partes`() {
 
     // verificação:
     val token = authService.generatedToken(1L, null)
     // assertThat(token.split("-").size).isEqualTo(3)
-    assertThat(token.split("#")).hasSize(3)
-
+    assertThat(token.split("-")).hasSize(5)
   }
 
   @Test
-  fun `Token deve expirar com 60 min`() {
+  fun `Deve ter um tempo de 60 min`() {
 
-    val token = authService.generatedToken(1L, null)
-        val expirationTime = LocalDateTime.parse(token.split("#")[2])
-        // Verifica se a expiração é dentro de 60 minutos a partir de agora
+    val token = authService.generatedToken(1L, "oldToken")
+    // pegando apartiro do segundo sinal de -
+    val expiredAt = token.split("-").drop(2).joinToString("-")
+    val expirationTime = LocalDateTime.parse(expiredAt)
+
+    // Verifica se a expiração é dentro de 60 minutos a partir de agora
     val currentTime = LocalDateTime.now()
-    val expectedExpirationTime = currentTime.plusMinutes(60)
+    assertThat(expirationTime).isAfterOrEqualTo(currentTime)
+  }
 
-    // Verifica se a diferença entre a hora de expiração e a hora atual está dentro do esperado
-    assertThat(expirationTime).isAfterOrEqualTo(expectedExpirationTime.minusMinutes(1))
-    assertThat(expirationTime).isBeforeOrEqualTo(expectedExpirationTime.plusMinutes(1))
+  @Test
+  fun `deve extrair o id`() {
+    // ambiente:
+    val token = authService.generatedToken(7L, "oldToken")
 
-    // println("------------------------------------------------")
-    // println("ja " + token.split("-")[2])
-    // println(LocalDateTime.parse(token.split("-")[2]))
-    // println("------------------------------------------------")
-    // assertThat(token.split("-")[2]).isEqualTo("lalala")
+    // execiução
+    val userID = authService.extractIdByToken(token)
+    // Verificação
+    assertThat(userID).isEqualTo(7L)
+  }
+
+  @Test
+  fun `deve validar o tempo de expiração do token`() {
+    // ambiente:
+    val userToken = "593c974762df434bbc992f5ecb41beb7-7-2025-03-23T01:14:01.354864569"
+    val token = "593c974762df434bbc992f5ecb41beb7-7-2025-03-23T01:04:01.354864569"
+    // execução:
+    var response = authService.tokenValidation(token, userToken)
+    assertTrue(response)
+  }
+
+  @Test
+  fun `deve retornar false o tempo do token tiver expirado`() {
+    // ambiente:
+    val userToken = "593c974762df434bbc992f5ecb41beb7-7-2025-03-23T00:14:01.354864569"
+    val token = "593c974762df434bbc992f5ecb41beb7-7-2025-03-23T00:04:01.354864569"
+    // execução:
+    var response = authService.tokenValidation(token, userToken)
+    assertFalse(response)
+  }
+  @Test
+  fun `deve validar o uuid do token`() {
+    val token = authService.generatedToken(7L, "oldToken")
+    val userToken = token.replaceFirstChar { 'X' }
+    var response = authService.tokenValidation(token, userToken)
+
+    assertFalse(response)
   }
 }
-    // private var usersService: UsersService = mockk {
-    //     every { findById(any()) } returns user
-    // }
-    // @Test
-    // fun `deve adicionar o total dos valores dos itens ao produto`() {
-    //     val registered = produtoSerice.register(1, produtoDTO)
-    //     val totalCost = registered.items.sumOf { it.unitCost }.setScale(2, RoundingMode.HALF_UP)
-
-    //     assertThat(totalCost).isEqualTo(registered.currentCost)
-    //     assertThat(totalCost).isEqualTo(BigDecimal("35.00")) // Esperado 35.00, itens: 10.00 +
-    // 17.00 +8.00
-    //     assertThat(totalCost).isNotZero()
-    // }

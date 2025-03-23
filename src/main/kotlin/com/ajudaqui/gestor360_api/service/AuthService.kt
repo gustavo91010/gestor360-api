@@ -3,7 +3,6 @@ package com.ajudaqui.gestor360_api.service
 import com.ajudaqui.gestor360_api.dto.LoginDTO
 import com.ajudaqui.gestor360_api.dto.UsersDTO
 import com.ajudaqui.gestor360_api.entity.Users
-import com.ajudaqui.gestor360_api.exception.MessageException
 import com.ajudaqui.gestor360_api.exception.NotAutorizationException
 import com.ajudaqui.gestor360_api.response.ResponseLogin
 import java.time.LocalDateTime
@@ -42,38 +41,48 @@ class AuthService(
       usersService.create(usersDTO)
     }
   }
-  fun lalala():String{
-    return "lalala";
+  fun lalala(): String {
+    return "lalala"
   }
   fun generatedToken(userId: Long, token: String?): String {
     val currentTime = LocalDateTime.now()
-    if (!token.isNullOrBlank()) {
-      val timeExpered = token.split("#")[2]
-      print("timeExpered $timeExpered")
-      print("currentTime $currentTime")
-      if (currentTime.isBefore(LocalDateTime.parse(timeExpered))) {
+    //
+    // se não tver 5 - sera tratado com null...
+    val validToken = token?.takeIf { it.split("-").size == 5 }
+    if (!validToken.isNullOrBlank()) {
+
+      val expiredAt = token.split("-").drop(2).joinToString("-")
+      val expirationTime = LocalDateTime.parse(expiredAt)
+
+      if (currentTime.isBefore(expirationTime)) {
         return token
       }
     }
-
     val expiredAt = currentTime.plusMinutes(60)
-    return "${UUID.randomUUID()}#$userId#$expiredAt"
+    var uuid = UUID.randomUUID().toString().replace("-", "")
+    return "$uuid-$userId-$expiredAt"
   }
 
-  fun extractToken(token: String){
+  fun extractIdByToken(token: String): Long {
 
+    val parts = token.split("-")
+    return parts[1].toLong()
   }
-  fun tokenValidation(token: String): Boolean {
-    val parts = token.split("#")
 
-    print("data de validação: ${parts[2]} ")
-    val user = usersService.findById(parts[1].toLong())
+  fun tokenValidation(token: String, userToken: String): Boolean {
+    val parts = token.split("-")
+    val currentTime = LocalDateTime.now()
+    val expiredAt = token.split("-").drop(2).joinToString("-")
+    val expirationTime = LocalDateTime.parse(expiredAt)
 
-    val userToken = user.token!!.split("#")[0]
-    if (userToken != parts[0]) {
-      throw MessageException("Token invalido")
+    if (currentTime.isAfter(expirationTime)) {
+      return false
     }
 
-    return false
+    val uuidToken = userToken.split("-")[0]
+    if (uuidToken != parts[0]) {
+      return false
+    }
+    return true
   }
 }
