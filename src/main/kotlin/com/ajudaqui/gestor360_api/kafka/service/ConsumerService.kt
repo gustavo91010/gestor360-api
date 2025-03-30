@@ -1,6 +1,6 @@
 package com.ajudaqui.gestor360_api.kafka.service
 
-import com.ajudaqui.gestor360_api.kafka.entity.Order
+import kafka.entity.Order
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener

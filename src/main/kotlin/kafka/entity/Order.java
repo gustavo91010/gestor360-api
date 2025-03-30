@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.ajudaqui.gestor360_api.kafka.entity;
+package kafka.entity;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Order extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 4302008965974337107L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Order\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"code\",\"type\":\"string\"},{\"name\":\"items\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"OrderItem\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}}},{\"name\":\"timestamp\",\"type\":\"string\"}]}");
+  private static final long serialVersionUID = 3829075237153801278L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Order\",\"namespace\":\"kafka.entity\",\"fields\":[{\"name\":\"code\",\"type\":\"string\"},{\"name\":\"items\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"OrderItem\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}}},{\"name\":\"timestamp\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -72,7 +72,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   }
 
    private java.lang.CharSequence code;
-   private java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> items;
+   private java.util.List<kafka.entity.OrderItem> items;
    private java.lang.CharSequence timestamp;
 
   /**
@@ -88,7 +88,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
    * @param items The new value for items
    * @param timestamp The new value for timestamp
    */
-  public Order(java.lang.CharSequence code, java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> items, java.lang.CharSequence timestamp) {
+  public Order(java.lang.CharSequence code, java.util.List<kafka.entity.OrderItem> items, java.lang.CharSequence timestamp) {
     this.code = code;
     this.items = items;
     this.timestamp = timestamp;
@@ -111,7 +111,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: code = (java.lang.CharSequence)value$; break;
-    case 1: items = (java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>)value$; break;
+    case 1: items = (java.util.List<kafka.entity.OrderItem>)value$; break;
     case 2: timestamp = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
@@ -138,7 +138,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
    * Gets the value of the 'items' field.
    * @return The value of the 'items' field.
    */
-  public java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> getItems() {
+  public java.util.List<kafka.entity.OrderItem> getItems() {
     return items;
   }
 
@@ -147,7 +147,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
    * Sets the value of the 'items' field.
    * @param value the value to set.
    */
-  public void setItems(java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> value) {
+  public void setItems(java.util.List<kafka.entity.OrderItem> value) {
     this.items = value;
   }
 
@@ -172,8 +172,8 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
    * Creates a new Order RecordBuilder.
    * @return A new Order RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.Order.Builder newBuilder() {
-    return new com.ajudaqui.gestor360_api.kafka.entity.Order.Builder();
+  public static kafka.entity.Order.Builder newBuilder() {
+    return new kafka.entity.Order.Builder();
   }
 
   /**
@@ -181,11 +181,11 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
    * @param other The existing builder to copy.
    * @return A new Order RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.Order.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.Order.Builder other) {
+  public static kafka.entity.Order.Builder newBuilder(kafka.entity.Order.Builder other) {
     if (other == null) {
-      return new com.ajudaqui.gestor360_api.kafka.entity.Order.Builder();
+      return new kafka.entity.Order.Builder();
     } else {
-      return new com.ajudaqui.gestor360_api.kafka.entity.Order.Builder(other);
+      return new kafka.entity.Order.Builder(other);
     }
   }
 
@@ -194,11 +194,11 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
    * @param other The existing instance to copy.
    * @return A new Order RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.Order.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.Order other) {
+  public static kafka.entity.Order.Builder newBuilder(kafka.entity.Order other) {
     if (other == null) {
-      return new com.ajudaqui.gestor360_api.kafka.entity.Order.Builder();
+      return new kafka.entity.Order.Builder();
     } else {
-      return new com.ajudaqui.gestor360_api.kafka.entity.Order.Builder(other);
+      return new kafka.entity.Order.Builder(other);
     }
   }
 
@@ -210,7 +210,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
     implements org.apache.avro.data.RecordBuilder<Order> {
 
     private java.lang.CharSequence code;
-    private java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> items;
+    private java.util.List<kafka.entity.OrderItem> items;
     private java.lang.CharSequence timestamp;
 
     /** Creates a new Builder */
@@ -222,7 +222,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.Order.Builder other) {
+    private Builder(kafka.entity.Order.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.code)) {
         this.code = data().deepCopy(fields()[0].schema(), other.code);
@@ -242,7 +242,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
      * Creates a Builder by copying an existing Order instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.Order other) {
+    private Builder(kafka.entity.Order other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.code)) {
         this.code = data().deepCopy(fields()[0].schema(), other.code);
@@ -272,7 +272,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       * @param value The value of 'code'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder setCode(java.lang.CharSequence value) {
+    public kafka.entity.Order.Builder setCode(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.code = value;
       fieldSetFlags()[0] = true;
@@ -292,7 +292,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       * Clears the value of the 'code' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder clearCode() {
+    public kafka.entity.Order.Builder clearCode() {
       code = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -302,7 +302,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       * Gets the value of the 'items' field.
       * @return The value.
       */
-    public java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> getItems() {
+    public java.util.List<kafka.entity.OrderItem> getItems() {
       return items;
     }
 
@@ -312,7 +312,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       * @param value The value of 'items'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder setItems(java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> value) {
+    public kafka.entity.Order.Builder setItems(java.util.List<kafka.entity.OrderItem> value) {
       validate(fields()[1], value);
       this.items = value;
       fieldSetFlags()[1] = true;
@@ -332,7 +332,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       * Clears the value of the 'items' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder clearItems() {
+    public kafka.entity.Order.Builder clearItems() {
       items = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -352,7 +352,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       * @param value The value of 'timestamp'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder setTimestamp(java.lang.CharSequence value) {
+    public kafka.entity.Order.Builder setTimestamp(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.timestamp = value;
       fieldSetFlags()[2] = true;
@@ -372,7 +372,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       * Clears the value of the 'timestamp' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.Order.Builder clearTimestamp() {
+    public kafka.entity.Order.Builder clearTimestamp() {
       timestamp = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -384,7 +384,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       try {
         Order record = new Order();
         record.code = fieldSetFlags()[0] ? this.code : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.items = fieldSetFlags()[1] ? this.items : (java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>) defaultValue(fields()[1]);
+        record.items = fieldSetFlags()[1] ? this.items : (java.util.List<kafka.entity.OrderItem>) defaultValue(fields()[1]);
         record.timestamp = fieldSetFlags()[2] ? this.timestamp : (java.lang.CharSequence) defaultValue(fields()[2]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
@@ -424,7 +424,7 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
     out.writeArrayStart();
     out.setItemCount(size0);
     long actualSize0 = 0;
-    for (com.ajudaqui.gestor360_api.kafka.entity.OrderItem e0: this.items) {
+    for (kafka.entity.OrderItem e0: this.items) {
       actualSize0++;
       out.startItem();
       e0.customEncode(out);
@@ -445,17 +445,17 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
       this.code = in.readString(this.code instanceof Utf8 ? (Utf8)this.code : null);
 
       long size0 = in.readArrayStart();
-      java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> a0 = this.items;
+      java.util.List<kafka.entity.OrderItem> a0 = this.items;
       if (a0 == null) {
-        a0 = new SpecificData.Array<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>((int)size0, SCHEMA$.getField("items").schema());
+        a0 = new SpecificData.Array<kafka.entity.OrderItem>((int)size0, SCHEMA$.getField("items").schema());
         this.items = a0;
       } else a0.clear();
-      SpecificData.Array<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>)a0 : null);
+      SpecificData.Array<kafka.entity.OrderItem> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<kafka.entity.OrderItem>)a0 : null);
       for ( ; 0 < size0; size0 = in.arrayNext()) {
         for ( ; size0 != 0; size0--) {
-          com.ajudaqui.gestor360_api.kafka.entity.OrderItem e0 = (ga0 != null ? ga0.peek() : null);
+          kafka.entity.OrderItem e0 = (ga0 != null ? ga0.peek() : null);
           if (e0 == null) {
-            e0 = new com.ajudaqui.gestor360_api.kafka.entity.OrderItem();
+            e0 = new kafka.entity.OrderItem();
           }
           e0.customDecode(in);
           a0.add(e0);
@@ -473,17 +473,17 @@ public class Order extends org.apache.avro.specific.SpecificRecordBase implement
 
         case 1:
           long size0 = in.readArrayStart();
-          java.util.List<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> a0 = this.items;
+          java.util.List<kafka.entity.OrderItem> a0 = this.items;
           if (a0 == null) {
-            a0 = new SpecificData.Array<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>((int)size0, SCHEMA$.getField("items").schema());
+            a0 = new SpecificData.Array<kafka.entity.OrderItem>((int)size0, SCHEMA$.getField("items").schema());
             this.items = a0;
           } else a0.clear();
-          SpecificData.Array<com.ajudaqui.gestor360_api.kafka.entity.OrderItem> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<com.ajudaqui.gestor360_api.kafka.entity.OrderItem>)a0 : null);
+          SpecificData.Array<kafka.entity.OrderItem> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<kafka.entity.OrderItem>)a0 : null);
           for ( ; 0 < size0; size0 = in.arrayNext()) {
             for ( ; size0 != 0; size0--) {
-              com.ajudaqui.gestor360_api.kafka.entity.OrderItem e0 = (ga0 != null ? ga0.peek() : null);
+              kafka.entity.OrderItem e0 = (ga0 != null ? ga0.peek() : null);
               if (e0 == null) {
-                e0 = new com.ajudaqui.gestor360_api.kafka.entity.OrderItem();
+                e0 = new kafka.entity.OrderItem();
               }
               e0.customDecode(in);
               a0.add(e0);

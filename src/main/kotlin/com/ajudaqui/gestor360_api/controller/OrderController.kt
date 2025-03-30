@@ -11,16 +11,18 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/order")
-class OrderController(
-    private val producerService: ProducerService
-) {
-    private val logger = LoggerFactory.getLogger(OrderController::class.java)
+class OrderController(private val producerService: ProducerService) {
+  private val logger = LoggerFactory.getLogger(OrderController::class.java)
 
-    @Transactional
-    @PostMapping
-    fun register(@RequestBody budgetItensDTO: List<OrderDTO>,
-                 @RequestHeader("Authorization") authHeaderUserId: Long): ResponseEntity<MessageView> {
-        logger.info("[POST] | /order | userId: $authHeaderUserId")
-        producerService.send(authHeaderUserId,budgetItensDTO)
-        return ResponseEntity.status(HttpStatus.CREATED).body(MessageView("Mensagem enviada"))
-    }}
+  @Transactional
+  @PostMapping
+  fun register(
+          @RequestBody budgetItensDTO: List<OrderDTO>,
+          @RequestHeader("Authorization") authHeaderUserId: Long
+  ): ResponseEntity<MessageView> {
+    logger.info("[POST] | /order | userId: $authHeaderUserId")
+    producerService.send(authHeaderUserId, budgetItensDTO)
+    return ResponseEntity.status(HttpStatus.CREATED).body(MessageView("Mensagem enviada"))
+  }
+}
+

@@ -1,9 +1,9 @@
 package com.ajudaqui.gestor360_api.kafka.service
 
 import com.ajudaqui.gestor360_api.kafka.dto.OrderDTO
-import com.ajudaqui.gestor360_api.kafka.entity.Order
-import com.ajudaqui.gestor360_api.kafka.entity.OrderItem
 import com.ajudaqui.gestor360_api.service.ItemService
+import kafka.entity.Order
+import kafka.entity.OrderItem
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -27,23 +27,30 @@ class ProducerService(
 
     private val logger: Logger = LoggerFactory.getLogger(ProducerService::class.java)
 
-    fun send(userId: Long, budgetItensDTO: List<OrderDTO>) {
-        val code = "code: $userId";
+    fun send(
+        userId: Long,
+        budgetItensDTO: List<OrderDTO>,
+    ) {
+        val code = "code: $userId"
 
         val itens = itemService.findByIds(budgetItensDTO.map { it.itemId })
 
-        val itensBudget = Array<OrderItem>(itens.size) { index ->
-            OrderItem.newBuilder()
-                .setName(itens[index].name)
-                .setBrand(itens[index].brand)
-                .setQuantity(budgetItensDTO[index].quantity)
+        val itensBudget =
+            Array<OrderItem>(itens.size) { index ->
+                OrderItem
+                    .newBuilder()
+                    .setName(itens[index].name)
+                    .setBrand(itens[index].brand)
+                    .setQuantity(budgetItensDTO[index].quantity)
+                    .build()
+            }
+        val order =
+            Order
+                .newBuilder()
+                .setCode(UUID.randomUUID().toString())
+                .setItems(itensBudget.toList())
+                .setTimestamp(LocalDateTime.now().toString())
                 .build()
-        }
-        val order = Order.newBuilder()
-            .setCode(UUID.randomUUID().toString())
-            .setItems(itensBudget.toList())
-            .setTimestamp(LocalDateTime.now().toString())
-            .build()
         val message = createMessageWithHeaders(code, order, topic)
         val future: CompletableFuture<SendResult<String, Order>> = template.send(message)
         future.whenComplete { result, ex ->
@@ -52,14 +59,18 @@ class ProducerService(
         }
     }
 
-    private fun createMessageWithHeaders(messageId: String, pessoaDTO: Order, topic: String) =
-        MessageBuilder.withPayload(pessoaDTO)
-            .setHeader("hash", pessoaDTO.hashCode())
-            .setHeader("version", "1.0.0")
-            .setHeader("endOfLife", LocalDate.now().plusDays(1L))
-            .setHeader("type", "fct")
-            .setHeader("cid", messageId)
-            .setHeader(KafkaHeaders.TOPIC, topic)
-            .setHeader(KafkaHeaders.KEY, messageId)
-            .build()
+    private fun createMessageWithHeaders(
+        messageId: String,
+        pessoaDTO: Order,
+        topic: String,
+    ) = MessageBuilder
+        .withPayload(pessoaDTO)
+        .setHeader("hash", pessoaDTO.hashCode())
+        .setHeader("version", "1.0.0")
+        .setHeader("endOfLife", LocalDate.now().plusDays(1L))
+        .setHeader("type", "fct")
+        .setHeader("cid", messageId)
+        .setHeader(KafkaHeaders.TOPIC, topic)
+        .setHeader(KafkaHeaders.KEY, messageId)
+        .build()
 }

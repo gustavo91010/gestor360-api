@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.ajudaqui.gestor360_api.kafka.entity;
+package kafka.entity;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class OrderItem extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -1294317218465788603L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OrderItem\",\"namespace\":\"com.ajudaqui.gestor360_api.kafka.entity\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}");
+  private static final long serialVersionUID = 3224050287277841492L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OrderItem\",\"namespace\":\"kafka.entity\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -172,8 +172,8 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
    * Creates a new OrderItem RecordBuilder.
    * @return A new OrderItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder newBuilder() {
-    return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder();
+  public static kafka.entity.OrderItem.Builder newBuilder() {
+    return new kafka.entity.OrderItem.Builder();
   }
 
   /**
@@ -181,11 +181,11 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
    * @param other The existing builder to copy.
    * @return A new OrderItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder other) {
+  public static kafka.entity.OrderItem.Builder newBuilder(kafka.entity.OrderItem.Builder other) {
     if (other == null) {
-      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder();
+      return new kafka.entity.OrderItem.Builder();
     } else {
-      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder(other);
+      return new kafka.entity.OrderItem.Builder(other);
     }
   }
 
@@ -194,11 +194,11 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
    * @param other The existing instance to copy.
    * @return A new OrderItem RecordBuilder
    */
-  public static com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder newBuilder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem other) {
+  public static kafka.entity.OrderItem.Builder newBuilder(kafka.entity.OrderItem other) {
     if (other == null) {
-      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder();
+      return new kafka.entity.OrderItem.Builder();
     } else {
-      return new com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder(other);
+      return new kafka.entity.OrderItem.Builder(other);
     }
   }
 
@@ -222,7 +222,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder other) {
+    private Builder(kafka.entity.OrderItem.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
@@ -242,7 +242,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
      * Creates a Builder by copying an existing OrderItem instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.ajudaqui.gestor360_api.kafka.entity.OrderItem other) {
+    private Builder(kafka.entity.OrderItem other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
@@ -272,7 +272,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
       * @param value The value of 'name'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder setName(java.lang.CharSequence value) {
+    public kafka.entity.OrderItem.Builder setName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.name = value;
       fieldSetFlags()[0] = true;
@@ -292,7 +292,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
       * Clears the value of the 'name' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder clearName() {
+    public kafka.entity.OrderItem.Builder clearName() {
       name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -312,7 +312,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
       * @param value The value of 'brand'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder setBrand(java.lang.CharSequence value) {
+    public kafka.entity.OrderItem.Builder setBrand(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.brand = value;
       fieldSetFlags()[1] = true;
@@ -332,7 +332,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
       * Clears the value of the 'brand' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder clearBrand() {
+    public kafka.entity.OrderItem.Builder clearBrand() {
       brand = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -352,7 +352,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
       * @param value The value of 'quantity'.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder setQuantity(double value) {
+    public kafka.entity.OrderItem.Builder setQuantity(double value) {
       validate(fields()[2], value);
       this.quantity = value;
       fieldSetFlags()[2] = true;
@@ -372,7 +372,7 @@ public class OrderItem extends org.apache.avro.specific.SpecificRecordBase imple
       * Clears the value of the 'quantity' field.
       * @return This builder.
       */
-    public com.ajudaqui.gestor360_api.kafka.entity.OrderItem.Builder clearQuantity() {
+    public kafka.entity.OrderItem.Builder clearQuantity() {
       fieldSetFlags()[2] = false;
       return this;
     }
